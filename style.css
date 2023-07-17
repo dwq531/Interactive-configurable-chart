@@ -1,0 +1,86 @@
+html {
+    height: 100%;
+    width: 100%;
+    --title-height: 50px;
+    --sidenavwidth: 350px;
+    --chartheight: 500px;
+    --chartwidth: 700px;
+}
+
+body {
+    background: lightblue;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.menu {
+    z-index: 1;
+    position: fixed;
+}
+
+#title {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--title-height);
+    background: gray;
+}
+
+#title-content {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    height: var(--title-height);
+    margin-top: -25px;
+}
+
+#sidenav {
+    float: right;
+    top: var(--title-height);
+    right: 0px;
+    height: calc(100vh - var(--title-height));
+    width: var(--sidenavwidth);
+    background: yellow;
+    text-align: left;
+    overflow: scroll;
+}
+
+#chart {
+    z-index: 0;
+    width: calc(100vw - var(--sidenavwidth));
+    height: calc(100vh - var(--title-height));
+    position: absolute;
+    top:var(--title-height);
+    left:0;    
+    overflow: scroll;
+    background: wheat;
+}
+#chart-content{
+    position: absolute;
+    top:50%;
+    left:50%;
+    width:var(--chartwidth);
+    height:var(--chartheight);
+    transform: translate(-50%,-50%);
+    background: white;
+}
+
+#sidenav-menu{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:50px;
+    background: lightgray;
+}
+#sidenav-content{
+    position:absolute;
+    top:50px;
+    left:0px;
+    width:100%;
+    height:calc(100% - 50px);
+    background: lightyellow;
+}
