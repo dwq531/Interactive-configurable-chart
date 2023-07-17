@@ -1,17 +1,21 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
 html {
     height: 100%;
     width: 100%;
     --title-height: 50px;
-    --sidenavwidth: 350px;
+    --sidenavwidth: 320px;
     --chartheight: 500px;
     --chartwidth: 700px;
 }
 
 body {
     background: lightblue;
-    margin: 0;
-    padding: 0;
-    border: 0;
+    
     height: 100%;
     width: 100%;
 }
@@ -83,4 +87,25 @@ body {
     width:100%;
     height:calc(100% - 50px);
     background: lightyellow;
+    display: flex;/*通过a标签锚点定位切换页面，https://blog.csdn.net/m0_53016870/article/details/126582766 */
+    overflow:hidden
+}
+.sidenav-button{
+    text-align: center;
+    background: darkgray;
+    height:100%;
+    width:80px;
+    float:left;
+    padding:10px 5px 0px 5px;
+}
+.sidenav-button, a{
+    text-decoration: none;
+}
+.content-page{
+    width:var(--sidenavwidth);
+    height:100%;
+    background: lightyellow;
+    flex-shrink: 0;
+    overflow:scroll;
+    padding: 10px;
 }
