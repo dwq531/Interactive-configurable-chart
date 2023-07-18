@@ -1,5 +1,5 @@
 *{
-    box-sizing: border-box;
+    box-sizing: border-box;/*注意这个*/
     margin: 0;
     padding: 0;
     border: 0;
@@ -8,14 +8,14 @@ html {
     height: 100%;
     width: 100%;
     --title-height: 50px;
-    --sidenavwidth: 320px;
+    --sidenavwidth: 322px;
     --chartheight: 500px;
     --chartwidth: 700px;
+    --bordercolor:rgb(179, 179, 179);
 }
 
 body {
-    background: lightblue;
-    
+    background: rgb(239, 239, 239);  
     height: 100%;
     width: 100%;
 }
@@ -23,6 +23,7 @@ body {
 .menu {
     z-index: 1;
     position: fixed;
+    border: var(--bordercolor) solid 2px;
 }
 
 #title {
@@ -30,15 +31,19 @@ body {
     left: 0;
     width: 100%;
     height: var(--title-height);
-    background: gray;
+    background: white;
+    border-width:0px 0px 2px 0px;
+
 }
 
-#title-content {
+#titleContent {
     position: absolute;
     top: 50%;
     left: 10px;
     height: var(--title-height);
     margin-top: -25px;
+    font-size:30px;
+    font-weight: lighter;
 }
 
 #sidenav {
@@ -50,6 +55,7 @@ body {
     background: yellow;
     text-align: left;
     overflow: scroll;
+    border-width:0px 0px 0px 2px;
 }
 
 #chart {
@@ -60,9 +66,9 @@ body {
     top:var(--title-height);
     left:0;    
     overflow: scroll;
-    background: wheat;
+    background: rgb(240, 240, 240);
 }
-#chart-content{
+#chartContent{
     position: absolute;
     top:50%;
     left:50%;
@@ -72,7 +78,7 @@ body {
     background: white;
 }
 
-#sidenav-menu{
+#sidenavMenu{
     position:absolute;
     top:0;
     left:0;
@@ -80,7 +86,7 @@ body {
     height:50px;
     background: lightgray;
 }
-#sidenav-content{
+#sidenavContent{
     position:absolute;
     top:50px;
     left:0px;
@@ -92,7 +98,9 @@ body {
 }
 .sidenav-button{
     text-align: center;
-    background: darkgray;
+    background: white;
+    border: var(--bordercolor) solid 1px;
+    border-width:0px 1px 1px 0px;
     height:100%;
     width:80px;
     float:left;
@@ -104,8 +112,41 @@ body {
 .content-page{
     width:var(--sidenavwidth);
     height:100%;
-    background: lightyellow;
+    background: rgb(246, 246, 246);
     flex-shrink: 0;
     overflow:scroll;
-    padding: 10px;
+    padding: 15px;
+}
+/*
+.editor-box > div{
+    transition:all 2s;
+}
+*/
+.editor-box{
+    margin-top: 20px;
+    background: white;
+    border:var(--bordercolor) solid 1px;
+}
+.editor-box-hidden{
+    height:0px;
+    overflow: hidden;
+}
+.editor-box-content{
+    height:fit-content;
+    overflow: hidden;
+}
+.editor-box-title{
+    padding:5px 10px 5px 10px;
+    height:42px;
+    width:100%;
+    font-size:18px;
+    font-weight:bold;
+}
+.editor-box-row{
+    padding:5px 10px 5px 10px;
+    height:40px;
+    width:100%;
+    font-size:18px;
+    border:var(--bordercolor) solid 1px;
+    border-width:1px 0px 0px 0px;
 }

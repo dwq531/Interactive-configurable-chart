@@ -12,10 +12,10 @@
     </head>
     <body>
     <div id="title" class="menu">
-        <h1 id="title-content">可交互可配置图表</h1>
+        <span id="titleContent">可交互可配置图表</span>
     </div>
     <div id="sidenav" class="menu">
-        <div id="sidenav-menu">
+        <div id="sidenavMenu">
             <div class="sidenav-button">
                 <a href="#dataInput">输入数据</a>
             </div>
@@ -29,7 +29,7 @@
                 <a href="#linechartEditor">折线图</a>
             </div>
         </div>
-        <div id="sidenav-content">
+        <div id="sidenavContent">
             <div id="dataInput" class="content-page">
                 输入数据
                 <p>测试一下滚动。你说的对，但是《原神》是由米哈游自主研发的一款全新开放世界冒险游戏。游戏发生在一个被称作「提瓦特」的幻想世界，在这里，被神选中的人将被授予「神之眼」，导引元素之力。你将扮演一位名为「旅行者」的神秘角色，在自由的旅行中邂逅性格各异、能力独特的同伴们，和他们一起击败强敌，找回失散的亲人——同时，逐步发掘「原神」的真相。</p>
@@ -40,12 +40,41 @@
             <div id="axisEditor" class="content-page">
                 坐标轴
                 <!--TODO-->
+                <!--命名建议id用匈牙利，class单词中间加‘-’。为防止冲突，编辑器的类别前面要加编辑对象的名字，如“lineChartColor”,“histogramEditorFont”。-->
+                <div id="axisFont" class="editor-box">
+                    <button class="editor-box-title">文字样式</button>
+                    <div class="editor-box-hidden">
+                        <div class="editor-box-row">
+                            字体
+                        </div>
+                        <div class="editor-box-row">
+                            字号
+                        </div>
+                        <div class="editor-box-row">
+                            颜色
+                        </div>
+                    </div>
+                </div>
+                <div id="axisFont" class="editor-box">
+                    <button class="editor-box-title">文字样式</button>
+                    <div class="editor-box-hidden">
+                        <div class="editor-box-row">
+                            字体
+                        </div>
+                        <div class="editor-box-row">
+                            字号
+                        </div>
+                        <div class="editor-box-row">
+                            颜色
+                        </div>
+                    </div>
+                </div>
             </div>
             <div id="histogramEditor" class="content-page">
                 柱状图
                 <!--TODO-->
             </div>
-            <div id="linechartEditor" class="content-page">
+            <div id="lineChartEditor" class="content-page">
                 折线图
                 <!--TODO-->
             </div>
@@ -53,7 +82,7 @@
     </div>
         
     <div id="chart">
-        <div id="chart-content">
+        <div id="chartContent">
 
         </div>
     </div>
