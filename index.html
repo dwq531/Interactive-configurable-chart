@@ -8,6 +8,7 @@
         <meta name="Keywords" content="我的关键字1,我的关键字2,我的关键字3">
         <meta name="Description" content="我的网站描述...">
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="import" type="text/html" href="collapsibleMenu.html">
         <script src="main.js"></script>
     </head>
     <body>
@@ -41,34 +42,14 @@
                 坐标轴
                 <!--TODO-->
                 <!--命名建议id用匈牙利，class单词中间加‘-’。为防止冲突，编辑器的类别前面要加编辑对象的名字，如“lineChartColor”,“histogramEditorFont”。-->
-                <div id="axisFont" class="editor-box">
-                    <button class="editor-box-title">文字样式</button>
-                    <div class="editor-box-hidden">
-                        <div class="editor-box-row">
-                            字体
-                        </div>
-                        <div class="editor-box-row">
-                            字号
-                        </div>
-                        <div class="editor-box-row">
-                            颜色
-                        </div>
-                    </div>
-                </div>
-                <div id="axisFont" class="editor-box">
-                    <button class="editor-box-title">文字样式</button>
-                    <div class="editor-box-hidden">
-                        <div class="editor-box-row">
-                            字体
-                        </div>
-                        <div class="editor-box-row">
-                            字号
-                        </div>
-                        <div class="editor-box-row">
-                            颜色
-                        </div>
-                    </div>
-                </div>
+                <clp-menu>
+                    <span slot="title">标题标题</span>
+                    <span slot="content">内容内容</span>
+                </clp-menu>
+                <clp-menu>
+                    <span slot="title">标题标题</span>
+                    <span slot="content">内容内容</span>
+                </clp-menu>
             </div>
             <div id="histogramEditor" class="content-page">
                 柱状图
@@ -86,5 +67,22 @@
 
         </div>
     </div>
+
+    <!--template区-->
+    <!--折叠菜单-->
+    <template id="tpl">
+        <div class="editor-box">
+            <button class="editor-box-title">
+                <slot name="title">文字样式</slot>
+            </button>
+            <div class="editor-box-content">
+                <div class="editor-box-row">
+                    <slot name="content">字体</slot>
+                </div>
+            </div>
+        </div>
+    </template>
+    <script src="collapsibleMenu.js"></script>
+    <!--template区-->
     </body>
 </html>

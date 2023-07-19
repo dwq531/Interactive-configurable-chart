@@ -1,11 +1,11 @@
 window.onload = function ()
 {
     var editorBoxs = document.getElementsByClassName('editor-box-title');
-    console.log(editorBoxs);
+    //console.log(editorBoxs);
     for(let box of editorBoxs)
     {
         box.addEventListener("click",editor_box_clicked);
-        console.log(box);
+        //console.log(box);
     }
         
 };
