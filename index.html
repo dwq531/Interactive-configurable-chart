@@ -46,9 +46,15 @@
                     <span slot="title">标题标题</span>
                     <span slot="content">内容内容</span>
                 </clp-menu>
-                <clp-menu>
+                <clp-menu rownum="3">
                     <span slot="title">标题标题</span>
-                    <span slot="content">内容内容</span>
+                    <span slot="content1">内容内容</span>
+                    <span slot="content2">内容内容</span>
+                    <span slot="content3">
+                        <p>asdaksnxkqjwnxnkas</p>
+                        <p>!!!!!!!!!!1</p>
+                        <p>测试测试啊吧啊吧吧吧吧</p>
+                    </span>
                 </clp-menu>
             </div>
             <div id="histogramEditor" class="content-page">
@@ -75,9 +81,9 @@
             <button class="editor-box-title">
                 <slot name="title">文字样式</slot>
             </button>
-            <div class="editor-box-content">
+            <div class="editor-box-hidden">
                 <div class="editor-box-row">
-                    <slot name="content">字体</slot>
+                    <slot name="content1">字体</slot>
                 </div>
             </div>
         </div>

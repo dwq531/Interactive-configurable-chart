@@ -3,6 +3,22 @@ class ClpMenu extends HTMLElement {
         super();
         let shadow = this.attachShadow({ mode: 'open' });
         shadow.appendChild(tpl.content.cloneNode(true));
+        
+        let rownum = parseInt(this.getAttribute("rownum"));
+        if(rownum)// 加几行
+        {
+            for(let i=2;i<=rownum;i++)
+            {
+                let row = document.createElement('div');
+                row.setAttribute('class',"editor-box-row");
+                let slot = document.createElement('slot');
+                slot.setAttribute('name',"content"+i);
+                row.appendChild(slot);
+                var content = this.shadowRoot.children[0].children[1];
+                content.appendChild(row);
+            }
+        }
+
         const style = document.createElement('style');
         style.textContent=`
         *{
@@ -35,7 +51,7 @@ class ClpMenu extends HTMLElement {
         .editor-box-row {
             margin: 0px;
             padding: 5px 10px 5px 10px;
-            height: 40px;
+            min-height: 40px;
             width: 100%;
             font-size: 18px;
             border: rgb(233, 233, 233) solid 1px;
@@ -45,7 +61,7 @@ class ClpMenu extends HTMLElement {
     };
     connectedCallback() {
         const title=this.shadowRoot.children[0].children[0];
-        console.log(title);
+        //console.log(title);
         title.addEventListener("click",editor_box_clicked);
     }
     editor_box_clicked() {
