@@ -1,18 +1,18 @@
 class ClpMenu extends HTMLElement {
+
     constructor() {
         super();
         let shadow = this.attachShadow({ mode: 'open' });
         shadow.appendChild(tpl.content.cloneNode(true));
-        
+
         let rownum = parseInt(this.getAttribute("rownum"));
-        if(rownum)// 加几行
+        if (rownum)// 加几行
         {
-            for(let i=2;i<=rownum;i++)
-            {
+            for (let i = 2; i <= rownum; i++) {
                 let row = document.createElement('div');
-                row.setAttribute('class',"editor-box-row");
+                row.setAttribute('class', "editor-box-row");
                 let slot = document.createElement('slot');
-                slot.setAttribute('name',"content"+i);
+                slot.setAttribute('name', "content" + i);
                 row.appendChild(slot);
                 var content = this.shadowRoot.children[0].children[1];
                 content.appendChild(row);
@@ -20,7 +20,7 @@ class ClpMenu extends HTMLElement {
         }
 
         const style = document.createElement('style');
-        style.textContent=`
+        style.textContent = `
         *{
             box-sizing:border-box;
         }
@@ -60,12 +60,13 @@ class ClpMenu extends HTMLElement {
         shadow.appendChild(style);
     };
     connectedCallback() {
-        const title=this.shadowRoot.children[0].children[0];
+        const title = this.shadowRoot.children[0].children[0];
         //console.log(title);
-        title.addEventListener("click",editor_box_clicked);
+        title.addEventListener("click", this.editor_box_clicked);
     }
     editor_box_clicked() {
-        var content = this.shadowRoot.children[0].children[1];
+        var parent = this.parentElement;
+        var child = parent.children[1];
         if (child.className === 'editor-box-hidden')
             child.className = 'editor-box-content';
         else
