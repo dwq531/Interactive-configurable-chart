@@ -16,7 +16,6 @@ class ClpMenu extends HTMLElement {
                 slot.setAttribute('name', "content" + i);
                 row.appendChild(slot);
                 var content = this.shadowRoot.children[0].children[1].children[0];
-                console.log(content);
                 content.appendChild(row);
             }
         }

@@ -104,9 +104,18 @@ body {
     height:100%;
     width:80px;
     float:left;
-    padding:10px 5px 0px 5px;
+    padding:10px 0px 0px 0px;
+    text-decoration: none;
 }
-.sidenav-button, a{
+.sidenav-button-clicked{
+    text-align: center;
+    background: rgb(246, 246, 246);
+    border: var(--bordercolor) solid 1px;
+    border-width:0px 1px 0px 0px;
+    height:100%;
+    width:80px;
+    float:left;
+    padding:10px 0px 0px 0px;
     text-decoration: none;
 }
 .content-page{
@@ -117,11 +126,7 @@ body {
     overflow:scroll;
     padding: 15px;
 }
-/*
-.editor-box > div{
-    transition:all 2s;
-}
-*/
+
 .editor-box{
     margin-top: 20px;
     background: white;
