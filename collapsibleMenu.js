@@ -1,11 +1,12 @@
+// 感谢歪门邪道 https://juejin.cn/post/7196843994030342200
 class ClpMenu extends HTMLElement {
 
     constructor() {
         super();
         let shadow = this.attachShadow({ mode: 'open' });
         shadow.appendChild(tpl.content.cloneNode(true));
-
         let rownum = parseInt(this.getAttribute("rownum"));
+        this.contentheight = "40px";// content展开时的高度
         if (rownum)// 加几行
         {
             for (let i = 2; i <= rownum; i++) {
@@ -14,7 +15,8 @@ class ClpMenu extends HTMLElement {
                 let slot = document.createElement('slot');
                 slot.setAttribute('name', "content" + i);
                 row.appendChild(slot);
-                var content = this.shadowRoot.children[0].children[1];
+                var content = this.shadowRoot.children[0].children[1].children[0];
+                console.log(content);
                 content.appendChild(row);
             }
         }
@@ -31,13 +33,22 @@ class ClpMenu extends HTMLElement {
         }
         
         .editor-box-hidden {
-            height: 0px;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: .3s;
             overflow: hidden;
+
         }
         
         .editor-box-content {
-            height: fit-content;
+            display: grid;
+            grid-template-rows: 1fr;
+            transition: .3s;
             overflow: hidden;
+        }
+        .editor-box-bag{
+            min-height: 0px;
+            overflow:hidden;
         }
         
         .editor-box-title {
@@ -51,7 +62,6 @@ class ClpMenu extends HTMLElement {
         .editor-box-row {
             margin: 0px;
             padding: 5px 10px 5px 10px;
-            min-height: 40px;
             width: 100%;
             font-size: 18px;
             border: rgb(233, 233, 233) solid 1px;
@@ -63,6 +73,8 @@ class ClpMenu extends HTMLElement {
         const title = this.shadowRoot.children[0].children[0];
         //console.log(title);
         title.addEventListener("click", this.editor_box_clicked);
+        var content = this.shadowRoot.children[0].children[1];
+
     }
     editor_box_clicked() {
         var parent = this.parentElement;

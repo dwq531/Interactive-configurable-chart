@@ -44,12 +44,12 @@
                 <!--命名建议id用匈牙利，class单词中间加‘-’。为防止冲突，编辑器的类别前面要加编辑对象的名字，如“lineChartColor”,“histogramEditorFont”。-->
                 <clp-menu>
                     <span slot="title">标题标题</span>
-                    <span slot="content">内容内容</span>
+                    <span slot="content">内容内容1</span>
                 </clp-menu>
                 <clp-menu rownum="3">
                     <span slot="title">标题标题</span>
-                    <span slot="content1">内容内容</span>
-                    <span slot="content2">内容内容</span>
+                    <span slot="content1">内容内容1</span>
+                    <span slot="content2">内容内容2</span>
                     <span slot="content3">
                         <p>asdaksnxkqjwnxnkas</p>
                         <p>!!!!!!!!!!1</p>
@@ -82,8 +82,10 @@
                 <slot name="title">文字样式</slot>
             </button>
             <div class="editor-box-hidden">
-                <div class="editor-box-row">
-                    <slot name="content1">字体</slot>
+                <div class="editor-box-bag">
+                    <div class="editor-box-row">
+                        <slot name="content1">字体</slot>
+                    </div>
                 </div>
             </div>
         </div>
