@@ -32,7 +32,8 @@ body {
     width: 100%;
     height: var(--title-height);
     background: white;
-    border-width:0px 0px 2px 0px;
+    border-width:0px 0px 1px 0px;
+    box-shadow: -1px 1px  5px rgb(210, 210, 210);
 
 }
 
@@ -52,10 +53,10 @@ body {
     right: 0px;
     height: calc(100vh - var(--title-height));
     width: var(--sidenavwidth);
-    background: yellow;
     text-align: left;
     overflow: scroll;
-    border-width:0px 0px 0px 2px;
+    border-width:0px 0px 0px 1px;
+    box-shadow: -1px 1px  5px rgb(210, 210, 210);
 }
 
 #chart {
@@ -84,7 +85,7 @@ body {
     left:0;
     width:100%;
     height:50px;
-    background: lightgray;
+    background-color: white;
 }
 #sidenavContent{
     position:absolute;
@@ -92,12 +93,13 @@ body {
     left:0px;
     width:100%;
     height:calc(100% - 50px);
-    background: lightyellow;
     display: flex;/*通过a标签锚点定位切换页面，https://blog.csdn.net/m0_53016870/article/details/126582766 */
     overflow:hidden
 }
 .sidenav-button{
     text-align: center;
+    color:rgb(152, 152, 152);
+    font-weight: bold;
     background: white;
     border: var(--bordercolor) solid 1px;
     border-width:0px 1px 1px 0px;
@@ -109,6 +111,8 @@ body {
 }
 .sidenav-button-clicked{
     text-align: center;
+    color:rgb(77, 77, 77);
+    font-weight: bold;
     background: rgb(246, 246, 246);
     border: var(--bordercolor) solid 1px;
     border-width:0px 1px 0px 0px;
@@ -117,6 +121,7 @@ body {
     float:left;
     padding:10px 0px 0px 0px;
     text-decoration: none;
+    box-shadow: -1px 0px 5px rgb(210, 210, 210);
 }
 .content-page{
     width:var(--sidenavwidth);
@@ -125,35 +130,6 @@ body {
     flex-shrink: 0;
     overflow:scroll;
     padding: 15px;
-}
-
-.editor-box{
-    margin-top: 20px;
-    background: white;
-    border:var(--bordercolor) solid 1px;
-}
-.editor-box-hidden{
-    height:0px;
-    overflow: hidden;
-}
-.editor-box-content{
-    height:fit-content;
-    overflow: hidden;
-}
-.editor-box-title{
-    padding:5px 10px 5px 10px;
-    height:42px;
-    width:100%;
-    font-size:18px;
-    font-weight:bold;
-}
-.editor-box-row{
-    padding:5px 10px 5px 10px;
-    height:40px;
-    width:100%;
-    font-size:18px;
-    border:var(--bordercolor) solid 1px;
-    border-width:1px 0px 0px 0px;
 }
 /*  dwq  */
 
