@@ -1,4 +1,5 @@
 window.onload = () => {
+    // 侧边栏导航按钮添加事件
     let buts = document.getElementsByClassName("sidenav-button");
     for (let but of buts) {
         but.addEventListener("click", sidenavbut_clicked);
@@ -7,7 +8,13 @@ window.onload = () => {
     for (let but of buts) {
         but.addEventListener("click", sidenavbut_clicked);
     }
+    // 用canvas绘制图表
+    var canvas = document.getElementById("canvas");
+    canvas.height = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--chartheight').trim());
+    canvas.width = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--chartwidth').trim());
+    var ctx = canvas.getContext('2d');
     // dwq
+    
 
     // dwq
 

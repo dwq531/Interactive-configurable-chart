@@ -4,14 +4,17 @@
     padding: 0;
     border: 0;
 }
-html {
-    height: 100%;
-    width: 100%;
+:root{
     --title-height: 50px;
     --sidenavwidth: 322px;
     --chartheight: 500px;
     --chartwidth: 700px;
     --bordercolor:rgb(179, 179, 179);
+}
+html {
+    height: 100%;
+    width: 100%;
+    
 }
 
 body {
