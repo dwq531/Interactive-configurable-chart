@@ -7,8 +7,8 @@
 :root{
     --title-height: 50px;
     --sidenavwidth: 322px;
-    --chartheight: 500px;
-    --chartwidth: 700px;
+    --chartheight: 600px;
+    --chartwidth: 900px;
     --bordercolor:rgb(179, 179, 179);
 }
 html {
