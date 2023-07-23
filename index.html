@@ -90,7 +90,21 @@
                         </select>
                     </span>
                     <span slot="content2">
-                
+                        粗细：
+                        <select id = WidthOfLineSelector>
+                            <!--在js里循环生成-->
+                        </select>
+                        <script>
+                            const mySelect = document.getElementById('WidthOfLineSelector');
+                            for (let i = 1; i <= 30; i++) {
+                                const option = document.createElement('option');
+                                option.text = i + 'px';
+                                if(i === 10){
+                                    option.selected = true;
+                                }
+                                mySelect.add(option); 
+                            }
+                        </script>
                     </span>
                     <span slot="content3">
                         <p>asdaksnxkqjwnxnkas</p>

@@ -38,6 +38,21 @@ params.constructor = function()
     this.dh = (this.y0-this.y1-20)/6; // y轴刻度间隔像素
     this.dnum = 1;// y轴单位刻度数值的增长
     this.axisColor = "blue";
+
+    // gff
+    // 线
+    this.styleOfLine = 1;
+    this.widthOfLine = 10;
+    this.colorOfLine = [247,202,201];
+    // 点
+    this.shapeOfPoint = 1;
+    this.sizeOfPoint = 10;
+    this.colorOfPoint = [145,168,208];
+    // 文本
+    this.fronOfRatio = "Arial";
+    this.sizeOfRatio = 40;
+    this.colorOfRatio = [145,168,208];
+    // gff
 }
 params.paint = function() 
 {
@@ -172,24 +187,38 @@ params.drawHistogram = function()
 
 // gff
 params.drawLineChart = function (){
-    let ctx = this.ctx,y0 = this.y0,y1 = this.y1,dh = this.dh,dnum = this.dnum,data = this.data,numOfData = this.data.length,delta = this.delta,first = this.first,shapeOfPoint = this.shapeOfPoint,sizeOfPoint = this.sizeOfPoint;
-    // 坐标轴的高（因为纵轴还没有刻度所以暂时先用这个定一下位置，之后可以删掉）
-    const chartHeight = y1 - y0;
+    let ctx = this.ctx;
+    let y0 = this.y0;
+    let dh = this.dh;
+    let dnum = this.dnum;
+    let data = this.data;
+    let numOfData = this.data.length;
+    let delta = this.delta;
+    let first = this.first;
+
+    // 线相关的参数
+    let styleOfLine = this.styleOfLine;
+    let widthOfLine = this.widthOfLine;
+    let colorOfLine = this.colorOfLine;
+    // 点相关的参数
+    let shapeOfPoint = this.shapeOfPoint
+    let sizeOfPoint = this.sizeOfPoint;
+    let colorOfPoint = this.colorOfPoint;
+    // 文本相关的参数
+    let fronOfRatio = this.fronOfRatio;
+    let sizeOfRatio = this.sizeOfRatio;
+    let colorOfRatio = this.colorOfRatio;
     
     ctx.imageSmoothingEnabled = true;
-
     // 画线
     ctx.beginPath();
     // 虚线
-    if(styleOfLine === 1){
+    if(styleOfLine === 2){
         ctx.setLineDash([5, 5]);
     }
     for(let i = 0; i < numOfData; i++){
-        const red = 247;
-        const green = 202;
-        const blue = 201;
-        ctx.strokeStyle = `rgb(${red}, ${green}, ${blue})`;
-        ctx.lineWidth = 5;
+        ctx.strokeStyle = `rgb(${colorOfLine[0]}, ${colorOfLine[1]}, ${colorOfLine[2]})`;
+        ctx.lineWidth = widthOfLine;
         const x = first + i * delta;
         const y = y0-(data[i][1]/dnum*dh)*1.25;
         if(i === 0){
@@ -206,10 +235,7 @@ params.drawLineChart = function (){
     for(let i = 0; i < numOfData; i++){
         const x = first + i * delta;
         const y = y0-(data[i][1]/dnum*dh)*1.25;
-        const red = 145;
-        const green = 168;
-        const blue = 208;
-        ctx.fillStyle = `rgb(${red}, ${green}, ${blue})`;
+        ctx.fillStyle = `rgb(${colorOfPoint[0]}, ${colorOfPoint[1]}, ${colorOfPoint[2]})`;
         // 圆
         if(shapeOfPoint === 1){
             ctx.beginPath();
@@ -225,15 +251,18 @@ params.drawLineChart = function (){
     }
 
     // 占比文本
+    ctx.beginPath();
     var sum = 0;
     for(let i = 0; i < numOfData; i++){
-        sum = sum + data[i][1];
+        sum = sum + parseFloat(data[i][1]);
     }
     for(let i = 0; i < numOfData; i++){
         const x = first + i * delta;
         const y = y0-(data[i][1]/dnum*dh)*1.25;
         var ratio = data[i][1]/sum*100;
         var text = ratio.toFixed(2)+'%';
+        ctx.font = `${sizeOfRatio}px ${fronOfRatio}`;
+        ctx.fillStyle = `rgb(${colorOfRatio[0]}, ${colorOfRatio[1]}, ${colorOfRatio[2]})`;
         ctx.fillText(text,x,y-30);    
     }
 }
