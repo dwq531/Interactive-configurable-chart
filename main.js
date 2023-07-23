@@ -36,7 +36,7 @@ window.onload = () => {
     // cz
 
     // gff
-    var shapeOfPoint = 1;
+    var shapeOfPoint = 2;
     var sizeOfPoint = 10;
     drawLineChart(canvas,ctx,x0,y0,x1,y1,data.length,data,delta,first,shapeOfPoint,sizeOfPoint);
     // gff
@@ -139,12 +139,15 @@ function drawLineChart(canvas,ctx,x0,y0,x1,y1,numOfData,data,delta,first,shapeOf
             ctx.beginPath();
             ctx.arc(x,200,sizeOfPoint,0,2*Math.PI);
             ctx.fill();
+            ctx.stroke();
         }
         // 方
         else if(shapeOfPoint === 2){
-
+            ctx.beginPath();
+            ctx.rect(x-sizeOfPoint/2,200-sizeOfPoint/2,sizeOfPoint,sizeOfPoint);
+            ctx.fill();
+            ctx.stroke();
         }
     }
-    ctx.stroke();
 }
 // gff
