@@ -32,7 +32,7 @@ window.onload = () => {
     // dwq
 
     // cz
-    drawHistogram(canvas,ctx,first,delta);
+    drawHistogram(canvas,ctx,first,delta,data);
     // cz
 
     // gff
@@ -94,17 +94,29 @@ function drawAxis(canvas,ctx,x0,y0,x1,y1,numOfData,data,delta,first)
 // dwq
 
 // cz
-function drawHistogram(canvas,ctx,first,delta)
+function drawHistogram(canvas,ctx,first,delta,data)
 {
     //first为折线图第一个点的横坐标
     //delta为两个点的间距
-    for(var i=0;i<4;i++)
+    for(var i=0;i<data.length;i++)
     {
         ctx.beginPath();
         var color = "#0000FF";//指定颜色
         ctx.fillStyle=color; 
-        var height = Math.round(Math.random()*80+20);//随机高度
-        ctx.fillRect(first+delta*i-delta/6,900-height, delta/3, height);//绘制柱状图，高度需更改
+
+        //绘制柱状图
+        var recWidth=delta/3;
+        var height = data[i][1]*100;//TODO 放大倍数
+        var recX=first+delta*i-delta/6;
+        var recY=900-height;//起始纵坐标待更改
+        ctx.fillRect(recX,recY,recWidth,height);
+        ctx.font="35px scans-serif";
+
+        //绘制文本
+        var text=data[i][1];
+        var textWidth=ctx.measureText(text).width;//获取文本宽度
+        ctx.fillText(text,recX+delta/6-textWidth/2,recY-5,recWidth);//显示数值，-5
+        
     }
     //执行绘画
     ctx.stroke();
