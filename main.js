@@ -154,7 +154,6 @@ params.drawHistogram=function()
     //(x0,y0)为原点的横纵坐标
     //delta为两个点的间距
     var ctx = this.ctx,x0 = this.x0,y0 = this.y0,delta = this.delta,dh = this.dh,dnum = this.dnum,styleOfRectangle=this.styleOfRectangle,data=this.data;
-    //var color=["#FF8C00","#0000FF","#7FFF00","#FF0000"];
     styleOfRectangle=3;
     //绘制矩形
     if(styleOfRectangle!=TEXTURE_FILL)

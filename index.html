@@ -77,6 +77,35 @@
             <div id="histogramEditor" class="content-page">
                 柱状图
                 <!--TODO-->
+                <clp-menu rownum="1">
+                    <span slot="title">矩形样式</span>
+                    <span slot="content1">填充：
+                        <select id = styleOfRectangle>
+                            <option value="singleFill">单色填充</option>
+                            <option value="gradientFill">渐变填充</option>
+                            <option value="textureFill">纹理填充</option>
+                        </select>
+                        
+                    </span>
+                    
+                </clp-menu>
+                <clp-menu rownum="3">
+                    <span slot="title">文字样式</span>
+                    <span slot="content1">
+                        字体：
+                        <select id = styleOfLineSelector>
+                            <option value="soildLine">实线</option>
+                            <option value="dottedLine">虚线</option>
+                        </select>
+                    </span>
+                    <span slot="content2">
+                        字号：
+                    </span>
+                    <span slot="content3">
+                        颜色
+                    </span>
+                </clp-menu>
+
             </div>
             <div id="lineChartEditor" class="content-page">
                 <!--TODO-->
