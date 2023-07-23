@@ -10,8 +10,10 @@ window.onload = () => {
     }
     // 用canvas绘制图表
     var canvas = document.getElementById("canvas");
-    canvas.height = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--chartheight').trim());
-    canvas.width = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--chartwidth').trim());
+    canvas.height = 2*parseInt(getComputedStyle(document.documentElement).getPropertyValue('--chartheight').trim());
+    canvas.width = 2*parseInt(getComputedStyle(document.documentElement).getPropertyValue('--chartwidth').trim());
+    canvas.style.width = (canvas.width/2)+"px";
+    canvas.style.height = (canvas.height/2)+"px";
     var ctx = canvas.getContext('2d');
     var datamin=0;
     var datamax;
@@ -53,22 +55,40 @@ function getData()
 
 function drawAxis(canvas,ctx,x0,y0,x1,y1,numOfData,data,delta,first)
 {
+    ctx.imageSmoothingEnabled = true;
     ctx.strokeStyle = "black";
     ctx.beginPath();
-    ctx.lineWidth=1;    
-    ctx.moveTo(x0+0.5,y0+0.5);
-    ctx.lineTo(x0+0.5,y1+0.5);
+    ctx.lineWidth=2;    
+    ctx.moveTo(x0,y0);
+    ctx.lineTo(x0,y1);
+    ctx.stroke();// y轴
+    ctx.moveTo(x0,y0);
+    ctx.lineTo(x1+10,y0+0);
+    ctx.stroke();// x轴
+    ctx.beginPath();
+    ctx.lineWidth=2;
+    ctx.moveTo(x0,y1);
+    ctx.lineTo(x0-6,y1+8);
     ctx.stroke();
-    ctx.moveTo(x0+0.5,y0+0.5);
-    ctx.lineTo(x1+0.5,y0+0.5);
+    ctx.moveTo(x0,y1);
+    ctx.lineTo(x0+6,y1+8);
     ctx.stroke();
+    ctx.moveTo(x1+10,y0);
+    ctx.lineTo(x1-8+10,y0+6);
+    ctx.stroke();
+    ctx.moveTo(x1+10,y0);
+    ctx.lineTo(x1-8+10,y0-6);
+    ctx.stroke();
+    // 标签和刻度
     ctx.textAlign="center";
+    ctx.beginPath();
+    ctx.lineWidth=1;
     for(let i=1;i<=numOfData;i++)
     {
-        ctx.moveTo(x0+i*delta+0.5,y0+0.5);
-        ctx.lineTo(x0+i*delta+0.5,y0+8.5);
+        ctx.moveTo(x0+i*delta,y0);
+        ctx.lineTo(x0+i*delta,y0+8);
         ctx.stroke();
-        ctx.fillText(data[i-1][0],first+(i-1)*delta+0.5,y0+20.5);
+        ctx.fillText(data[i-1][0],first+(i-1)*delta,y0+20);
     }
 }
 // dwq
