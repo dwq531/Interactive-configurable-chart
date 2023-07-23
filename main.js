@@ -37,7 +37,7 @@ window.onload = () => {
     // dwq
 
     // cz
-    drawHistogram(canvas,ctx,first,delta,data);
+    drawHistogram(canvas,ctx,x0,y0,delta,data,dh,dnum);
     // cz
 
     // gff
@@ -116,9 +116,9 @@ function darwScaleLine(x0,y0,ctx,delta,data,first,dh,dnum,color)
 // dwq
 
 // cz
-function drawHistogram(canvas,ctx,first,delta,data)
+function drawHistogram(canvas,ctx,x0,y0,delta,data,dh,dnum)
 {
-    //first为折线图第一个点的横坐标
+    //(x0,y0)为原点的横纵坐标
     //delta为两个点的间距
     for(var i=0;i<data.length;i++)
     {
@@ -128,16 +128,16 @@ function drawHistogram(canvas,ctx,first,delta,data)
 
         //绘制柱状图
         var recWidth=delta/3;
-        var height = data[i][1]*100;//TODO 放大倍数
-        var recX=first+delta*i-delta/6;
-        var recY=900-height;//起始纵坐标待更改
-        ctx.fillRect(recX,recY,recWidth,height);
+        var height = data[i][1]/dnum*dh;
+        var recX=x0+delta/3+delta*i;
+        var recY=y0;
+        ctx.fillRect(recX,recY,recWidth,-height);
         ctx.font="35px scans-serif";
 
         //绘制文本
         var text=data[i][1];
         var textWidth=ctx.measureText(text).width;//获取文本宽度
-        ctx.fillText(text,recX+delta/6-textWidth/2,recY-5,recWidth);//显示数值，-5
+        ctx.fillText(text,recX+delta/6-textWidth/2,recY-height-10,recWidth);//显示数值，-5
         
     }
     //执行绘画
