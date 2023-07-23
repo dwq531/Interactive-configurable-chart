@@ -24,7 +24,8 @@ params.constructor = function()
     
     
     // dwq
-    this.data = this.getData();// 存输入数据的二维数组
+    this.data = new Array();// 存输入数据的二维数组
+    this.getData();
     this.datamin = Math.max(this.data);
     this.datamax = Math.min(this.data);
     this.padding=150;
@@ -44,17 +45,17 @@ params.paint = function()
     this.darwScaleLine();
     
     // dwq
-    /*
+
     // cz
-    drawHistogram(canvas,ctx,x0,y0,delta,data,dh,dnum);
+    this.drawHistogram();
     // cz
 
     // gff
-    var shapeOfPoint = 1;
-    var sizeOfPoint = 10;
-    drawLineChart(canvas,ctx,x0,y0,x1,y1,dh,dnum,data.length,data,delta,first,shapeOfPoint,sizeOfPoint);
+    this.shapeOfPoint = 1;
+    this.sizeOfPoint = 10;
+    this.drawLineChart();
     // gff
-    */
+    
 }
 // 侧边栏导航按钮点击事件
 function sidenavbut_clicked() {
@@ -68,16 +69,13 @@ function sidenavbut_clicked() {
 params.getData = function()
 {
     let table = document.getElementById("dataInputTableBody");
-    let data = new Array(0);
     for(let i=0;i<table.children.length;i++)
     {
         let row = new Array(2);
         row[0] = table.children[i].children[0].innerHTML;
         row[1] = table.children[i].children[1].innerHTML;
-        data.push(row);
+        this.data.push(row);
     }
-    console.log(data);
-    return data;
 }
 
 params.drawAxis = function()
@@ -140,12 +138,13 @@ params.darwScaleLine = function()
 // dwq
 
 // cz
-function drawHistogram(canvas,ctx,x0,y0,delta,data,dh,dnum)
+params.drawHistogram = function()
 {
     //(x0,y0)为原点的横纵坐标
     //delta为两个点的间距
+    var ctx = this.ctx,x0 = this.x0,y0 = this.y0,delta = this.delta,dh = this.dh,dnum = this.dnum;
     var color=["#FF8C00","#0000FF","#7FFF00","#FF0000"];
-    for(var i=0;i<data.length;i++)
+    for(var i=0;i<this.data.length;i++)
     {
         ctx.beginPath();
         //var color = "#0000FF";//指定颜色
@@ -153,14 +152,14 @@ function drawHistogram(canvas,ctx,x0,y0,delta,data,dh,dnum)
 
         //绘制柱状图
         var recWidth=delta/3;
-        var height = data[i][1]/dnum*dh;
+        var height = this.data[i][1]/dnum*dh;
         var recX=x0+delta/3+delta*i;
         var recY=y0;
         ctx.fillRect(recX,recY,recWidth,-height);
         ctx.font="35px scans-serif";
 
         //绘制文本
-        var text=data[i][1];
+        var text=this.data[i][1];
         var textWidth=ctx.measureText(text).width;//获取文本宽度
         ctx.fillText(text,recX+delta/6-textWidth/2,recY-height-10,recWidth);//显示数值，-5
         
@@ -171,10 +170,11 @@ function drawHistogram(canvas,ctx,x0,y0,delta,data,dh,dnum)
 // cz
 
 // gff
-function drawLineChart(canvas,ctx,x0,y0,x1,y1,dh,dnum,numOfData,data,delta,first,shapeOfPoint,sizeOfPoint){
+params.drawLineChart = function (){
+    let ctx = this.ctx,y0 = this.y0,y1 = this.y1,dh = this.dh,dnum = this.dnum,data = this.data,numOfData = this.data.length,delta = this.delta,first = this.first,shapeOfPoint = this.shapeOfPoint,sizeOfPoint = this.sizeOfPoint;
     // 坐标轴的高（因为纵轴还没有刻度所以暂时先用这个定一下位置，之后可以删掉）
     const chartHeight = y1 - y0;
-
+    
     ctx.imageSmoothingEnabled = true;
     const red = 247;
     const green = 202;
