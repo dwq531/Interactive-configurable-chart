@@ -138,7 +138,16 @@ body {
     display: none;
 }
 /*  dwq  */
-
+#dataInputTable,#dataInputTable td,#dataInputTable th{
+    border:1px solid black;
+}
+#dataInputTable{
+    border-collapse: collapse;
+}
+#dataInputTable td,#dataInputTable th{
+    width:200px;
+    text-align: center;
+}
 /*  dwq  */
 
 /*  cz   */
@@ -146,5 +155,27 @@ body {
 /*  cz   */
 
 /*  gff   */
-
+/* 下拉框的样式 */
+select {
+    font-size: 18px;
+    color: #333;
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+    width: 200px;
+  }
+  
+  /* 下拉框选项的样式 */
+  option {
+    font-family: Arial, sans-serif;
+    color: rgb(51, 51, 51);
+    /*一个待解决的小问题*/
+    /*感觉现在下拉框选项高度有点小而且太圆了，理论上是用下面两个参数调整的但是因为浏览器的默认样式，在google和edge浏览器里无法改变，在firefox浏览器里只能变第二个*/
+    height: 50px;
+    border-radius: 0px;
+    /*所以选择了用增大字号来撑大下拉框选项*/
+    font-size: 20px;
+  }
+  
 /*  gff   */
