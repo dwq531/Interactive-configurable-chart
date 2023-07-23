@@ -32,7 +32,7 @@ window.onload = () => {
     // dwq
 
     // cz
-
+    drawHistogram(canvas,ctx,first,delta);
     // cz
 
     // gff
@@ -94,7 +94,21 @@ function drawAxis(canvas,ctx,x0,y0,x1,y1,numOfData,data,delta,first)
 // dwq
 
 // cz
-
+function drawHistogram(canvas,ctx,first,delta)
+{
+    //first为折线图第一个点的横坐标
+    //delta为两个点的间距
+    for(var i=0;i<4;i++)
+    {
+        ctx.beginPath();
+        var color = "#0000FF";//指定颜色
+        ctx.fillStyle=color; 
+        var height = Math.round(Math.random()*80+20);//随机高度
+        ctx.fillRect(first+delta*i-delta/6,900-height, delta/3, height);//绘制柱状图，高度需更改
+    }
+    //执行绘画
+    ctx.stroke();
+}
 // cz
 
 // gff
