@@ -57,7 +57,17 @@ function sidenavbut_clicked() {
 // dwq
 function getData()
 {
-    return [[2019,2],[2020,3],[2021,5],[2022,4]];
+    let table = document.getElementById("dataInputTableBody");
+    let data = new Array(0);
+    for(let i=0;i<table.children.length;i++)
+    {
+        let row = new Array(2);
+        row[0] = table.children[i].children[0].innerHTML;
+        row[1] = table.children[i].children[1].innerHTML;
+        data.push(row);
+    }
+    console.log(data);
+    return data;
 }
 
 function drawAxis(canvas,ctx,x0,y0,x1,y1,color)
