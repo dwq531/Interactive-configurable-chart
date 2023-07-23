@@ -50,9 +50,9 @@ params.paint = function()
     // cz
 
     // gff
-    var shapeOfPoint = 2;
+    var shapeOfPoint = 1;
     var sizeOfPoint = 10;
-    drawLineChart(canvas,ctx,x0,y0,x1,y1,data.length,data,delta,first,shapeOfPoint,sizeOfPoint);
+    drawLineChart(canvas,ctx,x0,y0,x1,y1,dh,dnum,data.length,data,delta,first,shapeOfPoint,sizeOfPoint);
     // gff
     */
 }
@@ -144,11 +144,12 @@ function drawHistogram(canvas,ctx,x0,y0,delta,data,dh,dnum)
 {
     //(x0,y0)为原点的横纵坐标
     //delta为两个点的间距
+    var color=["#FF8C00","#0000FF","#7FFF00","#FF0000"];
     for(var i=0;i<data.length;i++)
     {
         ctx.beginPath();
-        var color = "#0000FF";//指定颜色
-        ctx.fillStyle=color; 
+        //var color = "#0000FF";//指定颜色
+        ctx.fillStyle=color[i]; 
 
         //绘制柱状图
         var recWidth=delta/3;
@@ -170,27 +171,27 @@ function drawHistogram(canvas,ctx,x0,y0,delta,data,dh,dnum)
 // cz
 
 // gff
-function drawLineChart(canvas,ctx,x0,y0,x1,y1,numOfData,data,delta,first,shapeOfPoint,sizeOfPoint){
+function drawLineChart(canvas,ctx,x0,y0,x1,y1,dh,dnum,numOfData,data,delta,first,shapeOfPoint,sizeOfPoint){
     // 坐标轴的高（因为纵轴还没有刻度所以暂时先用这个定一下位置，之后可以删掉）
     const chartHeight = y1 - y0;
 
     ctx.imageSmoothingEnabled = true;
-    const red = 239;
-    const green = 100;
-    const blue = 203;
+    const red = 247;
+    const green = 202;
+    const blue = 201;
     ctx.strokeStyle = `rgb(${red}, ${green}, ${blue})`;
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 5;
 
     // 画线
     ctx.beginPath();
     for(let i = 0; i < numOfData; i++){
         const x = first + i * delta;
-        const y = y1 - (data[i][1] * chartHeight);
+        const y = y0-(data[i][1]/dnum*dh)*1.25;
         if(i === 0){
-            ctx.moveTo(x,200);
+            ctx.moveTo(x,y);
         }
         else{
-            ctx.lineTo(x,200);
+            ctx.lineTo(x,y);
         }
     }
     ctx.stroke();
@@ -198,23 +199,23 @@ function drawLineChart(canvas,ctx,x0,y0,x1,y1,numOfData,data,delta,first,shapeOf
     // 画点
     for(let i = 0; i < numOfData; i++){
         const x = first + i * delta;
-        const y = y1 - (data[i][1] * chartHeight);
-        const red = 0;
-        const green = 0;
-        const blue = 250;
+        const y = y0-(data[i][1]/dnum*dh)*1.25;
+        const red = 145;
+        const green = 168;
+        const blue = 208;
         ctx.fillStyle = `rgb(${red}, ${green}, ${blue})`;
         ctx.strokeStyle = `rgb(${red}, ${green}, ${blue})`;
         // 圆
         if(shapeOfPoint === 1){
             ctx.beginPath();
-            ctx.arc(x,200,sizeOfPoint,0,2*Math.PI);
+            ctx.arc(x,y,sizeOfPoint,0,2*Math.PI);
             ctx.fill();
             ctx.stroke();
         }
         // 方
         else if(shapeOfPoint === 2){
             ctx.beginPath();
-            ctx.rect(x-sizeOfPoint/2,200-sizeOfPoint/2,sizeOfPoint,sizeOfPoint);
+            ctx.rect(x-sizeOfPoint/2,y-sizeOfPoint/2,sizeOfPoint,sizeOfPoint);
             ctx.fill();
             ctx.stroke();
         }
