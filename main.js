@@ -43,7 +43,8 @@ window.onload = () => {
     // gff
     var shapeOfPoint = 1;
     var sizeOfPoint = 10;
-    drawLineChart(canvas,ctx,x0,y0,x1,y1,dh,dnum,data.length,data,delta,first,shapeOfPoint,sizeOfPoint);
+    var styleOfLine = 1;
+    drawLineChart(canvas,ctx,x0,y0,x1,y1,dh,dnum,data.length,data,delta,first,shapeOfPoint,sizeOfPoint,styleOfLine);
     // gff
 }
 // 侧边栏导航按钮点击事件
@@ -149,20 +150,24 @@ function drawHistogram(canvas,ctx,x0,y0,delta,data,dh,dnum)
 // cz
 
 // gff
-function drawLineChart(canvas,ctx,x0,y0,x1,y1,dh,dnum,numOfData,data,delta,first,shapeOfPoint,sizeOfPoint){
+function drawLineChart(canvas,ctx,x0,y0,x1,y1,dh,dnum,numOfData,data,delta,first,shapeOfPoint,sizeOfPoint,styleOfLine){
     // 坐标轴的高（因为纵轴还没有刻度所以暂时先用这个定一下位置，之后可以删掉）
     const chartHeight = y1 - y0;
 
     ctx.imageSmoothingEnabled = true;
-    const red = 247;
-    const green = 202;
-    const blue = 201;
-    ctx.strokeStyle = `rgb(${red}, ${green}, ${blue})`;
-    ctx.lineWidth = 5;
 
     // 画线
     ctx.beginPath();
+    // 虚线
+    if(styleOfLine === 1){
+        ctx.setLineDash([5, 5]);
+    }
     for(let i = 0; i < numOfData; i++){
+        const red = 247;
+        const green = 202;
+        const blue = 201;
+        ctx.strokeStyle = `rgb(${red}, ${green}, ${blue})`;
+        ctx.lineWidth = 5;
         const x = first + i * delta;
         const y = y0-(data[i][1]/dnum*dh)*1.25;
         if(i === 0){
@@ -175,6 +180,7 @@ function drawLineChart(canvas,ctx,x0,y0,x1,y1,dh,dnum,numOfData,data,delta,first
     ctx.stroke();
 
     // 画点
+    ctx.beginPath();
     for(let i = 0; i < numOfData; i++){
         const x = first + i * delta;
         const y = y0-(data[i][1]/dnum*dh)*1.25;
@@ -182,21 +188,31 @@ function drawLineChart(canvas,ctx,x0,y0,x1,y1,dh,dnum,numOfData,data,delta,first
         const green = 168;
         const blue = 208;
         ctx.fillStyle = `rgb(${red}, ${green}, ${blue})`;
-        ctx.strokeStyle = `rgb(${red}, ${green}, ${blue})`;
         // 圆
         if(shapeOfPoint === 1){
             ctx.beginPath();
             ctx.arc(x,y,sizeOfPoint,0,2*Math.PI);
             ctx.fill();
-            ctx.stroke();
         }
         // 方
         else if(shapeOfPoint === 2){
             ctx.beginPath();
             ctx.rect(x-sizeOfPoint/2,y-sizeOfPoint/2,sizeOfPoint,sizeOfPoint);
             ctx.fill();
-            ctx.stroke();
         }
+    }
+
+    // 占比文本
+    var sum = 0;
+    for(let i = 0; i < numOfData; i++){
+        sum = sum + data[i][1];
+    }
+    for(let i = 0; i < numOfData; i++){
+        const x = first + i * delta;
+        const y = y0-(data[i][1]/dnum*dh)*1.25;
+        var ratio = data[i][1]/sum*100;
+        var text = ratio.toFixed(2)+'%';
+        ctx.fillText(text,x,y-30);    
     }
 }
 // gff
