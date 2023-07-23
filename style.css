@@ -138,7 +138,16 @@ body {
     display: none;
 }
 /*  dwq  */
-
+#dataInputTable,#dataInputTable td,#dataInputTable th{
+    border:1px solid black;
+}
+#dataInputTable{
+    border-collapse: collapse;
+}
+#dataInputTable td,#dataInputTable th{
+    width:200px;
+    text-align: center;
+}
 /*  dwq  */
 
 /*  cz   */
