@@ -7,8 +7,8 @@
 :root{
     --title-height: 50px;
     --sidenavwidth: 322px;
-    --chartheight: 600px;
-    --chartwidth: 900px;
+    --chartheight: 500px;
+    --chartwidth: 700px;
     --bordercolor:rgb(179, 179, 179);
 }
 html {
@@ -57,7 +57,7 @@ body {
     height: calc(100vh - var(--title-height));
     width: var(--sidenavwidth);
     text-align: left;
-    overflow: scroll;
+    overflow: hidden;
     border-width:0px 0px 0px 1px;
     box-shadow: -1px 1px  5px rgb(210, 210, 210);
 }
@@ -97,7 +97,7 @@ body {
     width:100%;
     height:calc(100% - 50px);
     display: flex;/*通过a标签锚点定位切换页面，https://blog.csdn.net/m0_53016870/article/details/126582766 */
-    overflow:hidden
+    overflow:hidden;
 }
 .sidenav-button{
     text-align: center;
@@ -131,8 +131,11 @@ body {
     height:100%;
     background: rgb(246, 246, 246);
     flex-shrink: 0;
-    overflow:scroll;
+    overflow-y:scroll;
     padding: 15px;
+}
+::-webkit-scrollbar {
+    display: none;
 }
 /*  dwq  */
 
