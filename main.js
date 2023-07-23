@@ -36,7 +36,9 @@ window.onload = () => {
     // cz
 
     // gff
-
+    var shapeOfPoint = 1;
+    var sizeOfPoint = 10;
+    drawLineChart(canvas,ctx,x0,y0,x1,y1,data.length,data,delta,first,shapeOfPoint,sizeOfPoint);
     // gff
 }
 // 侧边栏导航按钮点击事件
@@ -98,5 +100,51 @@ function drawAxis(canvas,ctx,x0,y0,x1,y1,numOfData,data,delta,first)
 // cz
 
 // gff
+function drawLineChart(canvas,ctx,x0,y0,x1,y1,numOfData,data,delta,first,shapeOfPoint,sizeOfPoint){
+    // 坐标轴的高（因为纵轴还没有刻度所以暂时先用这个定一下位置，之后可以删掉）
+    const chartHeight = y1 - y0;
 
+    ctx.imageSmoothingEnabled = true;
+    const red = 239;
+    const green = 100;
+    const blue = 203;
+    ctx.strokeStyle = `rgb(${red}, ${green}, ${blue})`;
+    ctx.lineWidth = 3;
+
+    // 画线
+    ctx.beginPath();
+    for(let i = 0; i < numOfData; i++){
+        const x = first + i * delta;
+        const y = y1 - (data[i][1] * chartHeight);
+        if(i === 0){
+            ctx.moveTo(x,200);
+        }
+        else{
+            ctx.lineTo(x,200);
+        }
+    }
+    ctx.stroke();
+
+    // 画点
+    for(let i = 0; i < numOfData; i++){
+        const x = first + i * delta;
+        const y = y1 - (data[i][1] * chartHeight);
+        const red = 0;
+        const green = 0;
+        const blue = 250;
+        ctx.fillStyle = `rgb(${red}, ${green}, ${blue})`;
+        ctx.strokeStyle = `rgb(${red}, ${green}, ${blue})`;
+        // 圆
+        if(shapeOfPoint === 1){
+            ctx.beginPath();
+            ctx.arc(x,200,sizeOfPoint,0,2*Math.PI);
+            ctx.fill();
+        }
+        // 方
+        else if(shapeOfPoint === 2){
+
+        }
+    }
+    ctx.stroke();
+}
 // gff
