@@ -122,11 +122,12 @@ function drawHistogram(canvas,ctx,x0,y0,delta,data,dh,dnum)
 {
     //(x0,y0)为原点的横纵坐标
     //delta为两个点的间距
+    var color=["#FF8C00","#0000FF","#7FFF00","#FF0000"];
     for(var i=0;i<data.length;i++)
     {
         ctx.beginPath();
-        var color = "#0000FF";//指定颜色
-        ctx.fillStyle=color; 
+        //var color = "#0000FF";//指定颜色
+        ctx.fillStyle=color[i]; 
 
         //绘制柱状图
         var recWidth=delta/3;
