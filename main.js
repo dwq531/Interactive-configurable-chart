@@ -1,3 +1,9 @@
+//CZ
+const SINGLE_COLOR_FILL=1;
+const GRADIENT_FILL=2;
+const TEXTURE_FILL=3;
+//CZ
+
 window.onload = () => {
     // 侧边栏导航按钮添加事件
     let buts = document.getElementsByClassName("sidenav-button");
@@ -118,33 +124,98 @@ function darwScaleLine(x0,y0,ctx,delta,data,first,dh,dnum,color)
 // dwq
 
 // cz
-function drawHistogram(canvas,ctx,x0,y0,delta,data,dh,dnum)
+function drawHistogram(canvas,ctx,x0,y0,delta,data,dh,dnum,styleOfRectangle)
 {
     //(x0,y0)为原点的横纵坐标
     //delta为两个点的间距
-    var color=["#FF8C00","#0000FF","#7FFF00","#FF0000"];
+    //var color=["#FF8C00","#0000FF","#7FFF00","#FF0000"];
+    styleOfRectangle=3;
+    //绘制矩形
+    if(styleOfRectangle!=TEXTURE_FILL)
+    {
+        for(var i=0;i<data.length;i++)
+        {
+            ctx.beginPath();
+        
+            //绘制柱状图
+            var recWidth=delta/3;
+            var recHeight = data[i][1]/dnum*dh;
+            var recX=x0+delta/3+delta*i;
+            var recY=y0;
+
+            if(styleOfRectangle==SINGLE_COLOR_FILL)//单色填充
+            {
+                var color = "#0000FF";
+                ctx.fillStyle=color; 
+                ctx.fillRect(recX,recY,recWidth,-recHeight);
+            }
+            else if(styleOfRectangle==GRADIENT_FILL)//渐变填充
+            {
+                var color1="rgba(240,250,40,1)";
+                var color2="rgba(82,67,192,1)";
+                let grad=ctx.createLinearGradient(recX+recWidth, recY, recX+recWidth, recY-recHeight);
+                grad.addColorStop(0, color1);//设置渐变颜色
+                grad.addColorStop(1, color2);
+                ctx.fillStyle = grad;//设置fillStyle为当前的渐变对象
+                ctx.fillRect(recX,recY,recWidth,-recHeight);//绘制渐变图形
+            }
+
+            //执行绘画
+            ctx.stroke();
+        }
+    }
+    else if(styleOfRectangle==TEXTURE_FILL)//纹理填充
+    {
+        var img = new Image();
+        img.src = "./img/DK.png";//切换纹理样式
+        img.onload = function(){
+            class rectangle_diy {
+                constructor(x,y,width,height) {
+                  this.x = x;
+                  this.y = y;
+                  this.width=width;
+                  this.height=height;
+                }
+              }
+            const rectangles = [];
+            for(let i=0;i<data.length;i++)
+            {
+                const rect=new rectangle_diy(x0+delta/3+delta*i,y0,delta/3,-data[i][1]/dnum*dh);
+                rectangles.push(rect);
+            }
+            rectangles.forEach(rect => {
+                // 开始绘制一个矩形路径
+                ctx.beginPath();
+                ctx.rect(rect.x, rect.y, rect.width, rect.height);
+        
+                // 创建纹理填充样式
+                const pattern = ctx.createPattern(img, "repeat");
+                ctx.fillStyle = pattern;
+        
+                //绘制矩形
+                ctx.fill();
+            });
+        }
+    }
+
+    //绘制文字
     for(var i=0;i<data.length;i++)
     {
         ctx.beginPath();
-        //var color = "#0000FF";//指定颜色
-        ctx.fillStyle=color[i]; 
-
-        //绘制柱状图
+        
         var recWidth=delta/3;
-        var height = data[i][1]/dnum*dh;
+        var recHeight = data[i][1]/dnum*dh;
         var recX=x0+delta/3+delta*i;
         var recY=y0;
-        ctx.fillRect(recX,recY,recWidth,-height);
-        ctx.font="35px scans-serif";
 
-        //绘制文本
+        var color = "#0000FF";
+        ctx.fillStyle=color; 
+        ctx.font="35px scans-serif";
         var text=data[i][1];
         var textWidth=ctx.measureText(text).width;//获取文本宽度
-        ctx.fillText(text,recX+delta/6-textWidth/2,recY-height-10,recWidth);//显示数值，-5
-        
+        ctx.fillText(text,recX+delta/6-textWidth/2,recY-recHeight-10,recWidth);//显示数值，-5
+
     }
-    //执行绘画
-    ctx.stroke();
 }
 // cz
 
