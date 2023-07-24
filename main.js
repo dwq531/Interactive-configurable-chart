@@ -44,6 +44,16 @@ window.onload = () => {
     let numInput = document.getElementById('numInput');
     numInput.addEventListener('input',changeNum);
     // gff
+
+
+    //cz
+    let histogramCheckbox = document.getElementById('histogramCheckbox');
+    histogramCheckbox.addEventListener('change',changeHistogram);
+    let styleOfTextSelector = document.getElementById('styleOfTextSelector');      
+    styleOfTextSelector.addEventListener('change', changeStyleOfText);
+    let sizeOfTextSelector = document.getElementById('sizeOfTextSelector');      
+    sizeOfTextSelector.addEventListener('change', changeSizeOfText);
+    //cz
 }
 params.constructor = function()
 {
@@ -57,6 +67,12 @@ params.constructor = function()
     
     //cz
     this.styleOfRectangle=1;
+    // 柱状图是否显示
+    this.histogramVisible = true;
+    // 文本
+    this.styleOfText = "Arial";
+    this.sizeOfText = 40;
+    this.colorOfText = [145,168,208];
 
     //cz
     
@@ -103,7 +119,10 @@ params.paint = function()
     // dwq
 
     // cz
-    this.drawHistogram();
+    if(this.histogramVisible === true)
+    {
+        this.drawHistogram();
+    }
     // cz
 
     // gff
@@ -285,8 +304,24 @@ params.drawHistogram=function()
 {
     //(x0,y0)为原点的横纵坐标
     //delta为两个点的间距
-    var ctx = this.ctx,x0 = this.x0,y0 = this.y0,delta = this.delta,dh = this.dh,dnum = this.dnum,styleOfRectangle=this.styleOfRectangle,data=this.data;
-    styleOfRectangle=3;
+    let x0 = this.x0;
+    let ctx = this.ctx;
+    let y0 = this.y0;
+    let dh = this.dh;
+    let dnum = this.dnum;
+    let data = this.data;
+    let delta = this.delta;
+    let mindata = this.mindata;
+
+    // 矩形相关的参数
+    let styleOfRectangle=this.styleOfRectangle
+    
+    // 文本相关的参数
+    let styleOfText = this.styleOfText;
+    let sizeOfText= this.sizeOfText;
+    let colorOfText=this.colorOfText;
+    
+    styleOfRectangle=2;
     //绘制矩形
     if(styleOfRectangle!=TEXTURE_FILL)
     {
@@ -296,7 +331,7 @@ params.drawHistogram=function()
         
             //绘制柱状图
             var recWidth=delta/3;
-            var recHeight = data[i][1]/dnum*dh;
+            var recHeight = (data[i][1]-mindata)/dnum*dh;
             var recX=x0+delta/3+delta*i;
             var recY=y0;
 
@@ -324,7 +359,7 @@ params.drawHistogram=function()
     else if(styleOfRectangle==TEXTURE_FILL)//纹理填充
     {
         var img = new Image();
-        img.src = "./img/DK.png";//切换纹理样式
+        img.src = "./img/wlj.png";//切换纹理样式
         img.onload = function(){
             class rectangle_diy {
                 constructor(x,y,width,height) {
@@ -337,41 +372,65 @@ params.drawHistogram=function()
             const rectangles = [];
             for(let i=0;i<data.length;i++)
             {
-                const rect=new rectangle_diy(x0+delta/3+delta*i,y0,delta/3,-data[i][1]/dnum*dh);
+                const rect=new rectangle_diy(x0+delta/3+delta*i,y0,delta/3,-(data[i][1]-mindata)/dnum*dh);
                 rectangles.push(rect);
             }
             rectangles.forEach(rect => {
-                // 开始绘制一个矩形路径
                 ctx.beginPath();
                 ctx.rect(rect.x, rect.y, rect.width, rect.height);
         
                 // 创建纹理填充样式
                 const pattern = ctx.createPattern(img, "repeat");
                 ctx.fillStyle = pattern;
-        
-                //绘制矩形
                 ctx.fill();
             });
         }
     }
 
-    //绘制文字
+    
+    
+    // //绘制文字
     for(var i=0;i<this.data.length;i++)
     {
         ctx.beginPath();
         
         var recWidth=delta/3;
-        var recHeight = data[i][1]/dnum*dh;
+        var recHeight = (data[i][1]-mindata)/dnum*dh;
         var recX=x0+delta/3+delta*i;
         var recY=y0;
 
-        var color = "#0000FF";
-        ctx.fillStyle=color; 
-        ctx.font="35px scans-serif";
+        ctx.font = `${sizeOfText}px ${styleOfText}`;
+        ctx.fillStyle = `rgb(${colorOfText[0]}, ${colorOfText[1]}, ${colorOfText[2]})`;
         var text=data[i][1];
-        var textWidth=ctx.measureText(text).width;//获取文本宽度
-        ctx.fillText(text,recX+delta/6-textWidth/2,recY-recHeight-10,recWidth);//显示数值，-5
+        //var textWidth=ctx.measureText(text).width;//获取文本宽度
+        //ctx.fillText(text,recX+delta/6-textWidth/2,recY-recHeight-10,recWidth);//显示数值，-5
+        ctx.fillText(text,recX+delta/6,recY-recHeight-10);//显示数值，-5
 
+    }
+ 
+}
+
+// 文本样式更改事件
+function changeStyleOfText(){
+    params.styleOfText = styleOfTextSelector.value;
+    params.repaint();
+}
+// 文本大小更改事件
+function changeSizeOfText(){
+    params.sizeOfText = sizeOfTextSelector.value;
+    params.repaint();
+}
+// 文本颜色更改事件
+
+//柱状图隐藏更改事件
+function changeHistogram(){
+    if(histogramCheckbox.checked){
+        params.histogramVisible = false;
+        params.repaint();
+    }
+    else{
+        params.histogramVisible = true;
+        params.repaint();
     }
 }
 // cz
@@ -386,7 +445,7 @@ params.drawLineChart = function (){
     let numOfData = this.data.length;
     let delta = this.delta;
     let first = this.first;
-    let minidata = this.mindata;
+    let mindata = this.mindata;
 
     // 线相关的参数
     let styleOfLine = this.styleOfLine;
@@ -412,7 +471,7 @@ params.drawLineChart = function (){
             ctx.strokeStyle = `rgb(${colorOfLine[0]}, ${colorOfLine[1]}, ${colorOfLine[2]})`;
             ctx.lineWidth = widthOfLine;
             const x = first + i * delta;
-            const y = y0-((data[i][1]-minidata)/dnum*dh)*1.2;
+            const y = y0-((data[i][1]-mindata)/dnum*dh)*1.2;
             if(i === 0){
                 ctx.moveTo(x,y);
             }
@@ -429,7 +488,7 @@ params.drawLineChart = function (){
             ctx.strokeStyle = `rgb(${colorOfLine[0]}, ${colorOfLine[1]}, ${colorOfLine[2]})`;
             ctx.lineWidth = widthOfLine;
             const x = first + i * delta;
-            const y = y0-((data[i][1]-minidata)/dnum*dh)*1.2;
+            const y = y0-((data[i][1]-mindata)/dnum*dh)*1.2;
             if(i === 0){
                 ctx.moveTo(x,y);
             }
@@ -444,7 +503,7 @@ params.drawLineChart = function (){
     ctx.beginPath();
     for(let i = 0; i < numOfData; i++){
         const x = first + i * delta;
-        const y = y0-((data[i][1]-minidata)/dnum*dh)*1.2;
+        const y = y0-((data[i][1]-mindata)/dnum*dh)*1.2;
         ctx.fillStyle = `rgb(${colorOfPoint[0]}, ${colorOfPoint[1]}, ${colorOfPoint[2]})`;
         // 圆
         if(styleOfPoint === "roundPoint"){
@@ -468,7 +527,7 @@ params.drawLineChart = function (){
     }
     for(let i = 0; i < numOfData; i++){
         const x = first + i * delta;
-        const y = y0-((data[i][1]-minidata)/dnum*dh)*1.2;
+        const y = y0-((data[i][1]-mindata)/dnum*dh)*1.2;
         var ratio = data[i][1]/sum*100;
         var text = ratio.toFixed(decimalNum)+'%';
         ctx.font = `${sizeOfRatio}px ${styleOfRatio}`;

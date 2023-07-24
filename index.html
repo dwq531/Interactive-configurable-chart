@@ -78,10 +78,17 @@
                 </clp-menu>
             </div>
             <div id="histogramEditor" class="content-page">
-                柱状图
                 <!--TODO-->
+                <!--隐藏柱状图-->
+                <label>
+                    <div class="flex-container">
+                        <input type="checkbox" class="custom-checkbox" id="histogramCheckbox">
+                        <span class="checkbox-text"> 隐藏柱状图</span>
+                    </div>
+                </label>
+                <!--柱状图样式-->
                 <clp-menu rownum="1">
-                    <span slot="title">矩形样式</span>
+                    <span slot="title">矩形</span>
                     <span slot="content1">填充：
                         <select id = "styleOfRectangle">
                             <option value="singleFill">单色填充</option>
@@ -89,9 +96,51 @@
                             <option value="textureFill">纹理填充</option>
                         </select>
                         
-                    </span>
-                    
+                    </span> 
                 </clp-menu>
+                <!--文字样式-->
+                <clp-menu rownum="3">
+                    <span slot="title">文本</span>
+                    <span slot="content1">
+                        字体：
+                        <select id = "styleOfTextSelector">
+                            <option value="Arial, sans-serif" style="font-family: Arial, sans-serif;">Arial</option>
+                            <option value="Times New Roman, serif" style="font-family: Times New Roman, serif;">Times New Roman</option>
+                            <option value="Courier New, monospace" style="font-family: Courier New, monospace;">Courier New</option>
+                            <option value="Verdana, sans-serif" style="font-family: Verdana, sans-serif;">Verdana</option>
+                            <option value="Georgia, serif" style="font-family: Georgia, serif;">Georgia</option>
+                            <option value="Comic Sans MS, cursive" style="font-family: Comic Sans MS, cursive;">Comic Sans MS</option>
+                            <option value="Impact, fantasy" style="font-family: Impact, fantasy;">Impact</option>
+                            <option value="Palatino Linotype, Book Antiqua, Palatino, serif" style="font-family: Palatino Linotype, Book Antiqua, Palatino, serif;">Palatino</option>
+                            <option value="Lucida Sans Unicode, Lucida Grande, sans-serif" style="font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;">Lucida Sans</option>
+                        </select>
+                    </span>
+                    <span slot="content2">
+                        字号：
+                        <select id = "sizeOfTextSelector">
+                            <!--在js里循环生成-->
+                        </select>
+                        <script>
+                            const textSelect = document.getElementById('sizeOfTextSelector');
+                            for (let i = 30; i <= 60; i+=2) {
+                                const option = document.createElement('option');
+                                option.value = i;
+                                option.text = i + 'px';
+                                if(i === 40){
+                                    option.selected = true;
+                                }
+                                textSelect.add(option); 
+                            }
+                        </script>
+                    </span>
+                    <span slot="content3">
+                        颜色：
+                        <select id = "colorOfTtextSelector">
+                            
+                        </select>
+                    </span>
+                </clp-menu>
+                
 
             </div>
 
