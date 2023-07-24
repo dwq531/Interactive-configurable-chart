@@ -111,9 +111,19 @@ params.getData = function()
         this.data.push(row);
     }
     // 自适应
+    // x轴
+    if(this.data.length>=10)
+    {
+        let root = document.querySelector(':root');
+        this.canvas.width = 1400 + (this.data.length-9)*100;
+        canvas.style.width = (700 + (this.data.length-9)*50)+"px";
+        root.style.setProperty('--chartwidth',this.canvas.width/2+'px');
+        this.x1 = this.canvas.width-this.padding;
+    }
     this.delta = (this.x1-this.x0)*1.0/this.data.length;
     this.first = this.x0+this.delta/2;
     let maxdata = this.data[0][1],mindata = this.data[0][1];
+    // y轴
     for(let i=0;i<this.data.length;i++)
     {
         if(this.data[i][1]<mindata)
