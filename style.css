@@ -139,14 +139,32 @@ body {
 }
 /*  dwq  */
 #dataInputTable,#dataInputTable td,#dataInputTable th{
-    border:1px solid black;
+    border:1px solid rgb(157, 157, 157);
+    color:#333;
 }
 #dataInputTable{
     border-collapse: collapse;
+    background: white;
 }
 #dataInputTable td,#dataInputTable th{
-    width:200px;
+    width:150px;
+    height:35px;
     text-align: center;
+}
+#dataInputTable thead{
+    background: rgb(231, 231, 231);
+}
+#tableAddButton,#tableSubButton{
+    width:145px;
+    height:35px;
+    border:rgb(157, 157, 157) solid 1px;
+    margin-top:5px;
+}
+#tableAddButton{
+    float:left;
+}
+#tableSubButton{
+    float:right;
 }
 /*  dwq  */
 
