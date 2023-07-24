@@ -94,6 +94,9 @@
                 </clp-menu>
 
             </div>
+
+
+            <!-- gff -->
             <div id="lineChartEditor" class="content-page">
                 <!--TODO-->
                 <label>
@@ -109,7 +112,6 @@
                         <select id="styleOfLineSelector">
                             <option value="solidLine">实线</option>
                             <option value="dottedLine">虚线</option>
-                            <!-- 添加其他普通选项 -->
                         </select>
                     </span>
                     <span slot="content2">
@@ -173,9 +175,16 @@
                     </span>
                 </clp-menu>
 
-                <clp-menu rownum="3">
+                <clp-menu rownum="4">
                     <span slot="title">文本</span>
                     <span slot="content1">
+                        <div id="ratioDecimals">
+                            保留
+                            <input type="text" id="numInput" placeholder="0~30间整数">
+                            位小数
+                        </div>
+                    </span>
+                    <span slot="content2">
                         字体：
                         <select id = "styleOfRatioSelector">
                             <option value="Arial, sans-serif" style="font-family: Arial, sans-serif;">Arial</option>
@@ -189,7 +198,7 @@
                             <option value="Lucida Sans Unicode, Lucida Grande, sans-serif" style="font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;">Lucida Sans</option>
                         </select>
                     </span>
-                    <span slot="content2">
+                    <span slot="content3">
                         字号：
                         <select id = "sizeOfRatioSelector">
                             <!--在js里循环生成-->
@@ -207,7 +216,7 @@
                             }
                         </script>
                     </span>
-                    <span slot="content3">
+                    <span slot="content4">
                         颜色：
                         <select id = "colorOfLineSelector">
                             

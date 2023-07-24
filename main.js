@@ -41,6 +41,8 @@ window.onload = () => {
     sizeOfRatioSelector.addEventListener('change', changeSizeOfRatio);
     let lineChartCheckbox = document.getElementById('lineChartCheckbox');
     lineChartCheckbox.addEventListener('change',changeLineChart);
+    let numInput = document.getElementById('numInput');
+    numInput.addEventListener('input',changeNum);
     // gff
 }
 params.constructor = function()
@@ -88,6 +90,7 @@ params.constructor = function()
     this.styleOfRatio = "Arial";
     this.sizeOfRatio = 40;
     this.colorOfRatio = [145,168,208];
+    this.decimalNum = 2;
     // 折线图是否显示
     this.lineChartVisible = true;
     // gff
@@ -397,6 +400,7 @@ params.drawLineChart = function (){
     let styleOfRatio = this.styleOfRatio;
     let sizeOfRatio = this.sizeOfRatio;
     let colorOfRatio = this.colorOfRatio;
+    let decimalNum = this.decimalNum;
     
     ctx.imageSmoothingEnabled = true;
     // 画线
@@ -466,7 +470,7 @@ params.drawLineChart = function (){
         const x = first + i * delta;
         const y = y0-((data[i][1]-minidata)/dnum*dh)*1.2;
         var ratio = data[i][1]/sum*100;
-        var text = ratio.toFixed(2)+'%';
+        var text = ratio.toFixed(decimalNum)+'%';
         ctx.font = `${sizeOfRatio}px ${styleOfRatio}`;
         ctx.fillStyle = `rgb(${colorOfRatio[0]}, ${colorOfRatio[1]}, ${colorOfRatio[2]})`;
         ctx.fillText(text,x,y-30);    
@@ -519,5 +523,10 @@ function changeLineChart(){
         params.lineChartVisible = true;
         params.repaint();
     }
+}
+// 保留小数位数更改事件
+function changeNum(event){
+    params.decimalNum =  parseInt(event.target.value);
+    params.repaint();
 }
 // gff
