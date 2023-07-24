@@ -71,6 +71,7 @@ body {
     left:0;    
     overflow: scroll;
     background: rgb(240, 240, 240);
+    overflow: scroll;
 }
 #chartContent{
     position: absolute;
@@ -78,10 +79,13 @@ body {
     left:50%;
     width:var(--chartwidth);
     height:var(--chartheight);
+    max-width:calc(100vw - var(--sidenavwidth));
     transform: translate(-50%,-50%);
     background: white;
 }
-
+#charinner{
+    overflow:scroll;
+}
 #sidenavMenu{
     position:absolute;
     top:0;

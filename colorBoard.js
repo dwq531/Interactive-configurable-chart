@@ -161,7 +161,7 @@ class ColorBoard extends HTMLElement {
         const speRect = canvas.getBoundingClientRect();
 
         var color = '#f00';
-        var method = "toRgbString";
+        //var method = "toRgbString";
         //绘制色谱
         this.drawSpectrum(canvas, color, ctx);
         let isDraw = false;
@@ -217,7 +217,7 @@ class ColorBoard extends HTMLElement {
             }
 
             //change
-            let color = tinycolor(this.curColor)[method]();
+            let color = tinycolor(this.curColor)["toRgbString"]();
             rgb_value.style.background = color;
             rgb_value.style.color = parseInt(this.curColor.l) >= 50 ? "black" : "white";
             rgb_value.innerHTML = color;
