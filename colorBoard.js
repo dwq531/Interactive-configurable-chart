@@ -183,7 +183,6 @@ class ColorBoard extends HTMLElement {
                 if (y > opacity.offsetHeight) y = opacity.offsetHeight-5;
                 opaSlide.style.top = y + "px";
                 this.curColor.a = 1 - y / opacity.offsetHeight;
-                console.log(opacity.offsetHeight+"*");
             }
             //颜色
             if (e.target === hue || e.target.parentNode === hue) {
@@ -197,9 +196,8 @@ class ColorBoard extends HTMLElement {
 
             if (e.target === spectrum || e.target.parentNode === spectrum) {
                 //通过x，y在画布上的比例计算颜色的亮度和饱和度
-                let x = e.pageX - speRect.left - cursor.offsetWidth / 2;
-                let y = e.pageY - speRect.top - cursor.offsetHeight / 2;
-
+                let x = e.offsetX;
+                let y = e.offsetY;
                 let r = cursor.offsetHeight;
 
                 if (x < 0) x = 0;
