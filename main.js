@@ -39,6 +39,8 @@ window.onload = () => {
     styleOfRatioSelector.addEventListener('change', changeStyleOfRatio);
     let sizeOfRatioSelector = document.getElementById('sizeOfRatioSelector');      
     sizeOfRatioSelector.addEventListener('change', changeSizeOfRatio);
+    let lineChartCheckbox = document.getElementById('lineChartCheckbox');
+    lineChartCheckbox.addEventListener('change',changeLineChart);
     // gff
 }
 params.constructor = function()
@@ -86,6 +88,8 @@ params.constructor = function()
     this.styleOfRatio = "Arial";
     this.sizeOfRatio = 40;
     this.colorOfRatio = [145,168,208];
+    // 折线图是否显示
+    this.lineChartVisible = true;
     // gff
 }
 params.paint = function() 
@@ -96,11 +100,13 @@ params.paint = function()
     // dwq
 
     // cz
-    //this.drawHistogram();
+    this.drawHistogram();
     // cz
 
     // gff
-    this.drawLineChart();
+    if(this.lineChartVisible === true){
+        this.drawLineChart();
+    }
     // gff
     
 }
@@ -489,4 +495,16 @@ function changeSizeOfRatio(){
     params.repaint();
 }
 // 文本颜色更改事件
+
+// 折线图隐藏更改事件
+function changeLineChart(){
+    if(lineChartCheckbox.checked){
+        params.lineChartVisible = false;
+        params.repaint();
+    }
+    else{
+        params.lineChartVisible = true;
+        params.repaint();
+    }
+}
 // gff
