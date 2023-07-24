@@ -129,6 +129,10 @@ params.getData = function()
         let row = new Array(2);
         row[0] = parseFloat(table.children[i].children[0].innerHTML);
         row[1] = parseFloat(table.children[i].children[1].innerHTML);
+        if(!row[0])
+            row[0]=0;
+        if(!row[1])
+            row[1]=0;
         this.data.push(row);
     }
     // 自适应
@@ -167,7 +171,6 @@ params.getData = function()
     this.mindata = mindata-this.dnum;
     if(this.mindata < 0)
         this.mindata = 0;
-    console.log(this.mindata);
 }
 
 params.drawAxis = function()
