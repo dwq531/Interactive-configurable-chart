@@ -25,6 +25,21 @@ window.onload = () => {
     let tableRemove = document.getElementById("tableSubButton");
     tableRemove.addEventListener("click",table_remove_row);
     // dwq
+
+    // gff
+    let styleOfLineSelector = document.getElementById('styleOfLineSelector');      
+    styleOfLineSelector.addEventListener('change', changeStyleOfLine);
+    let widthOfLineSelector = document.getElementById('widthOfLineSelector');      
+    widthOfLineSelector.addEventListener('change', changeWidthOfLine);
+    let styleOfPointSelector = document.getElementById('styleOfPointSelector');      
+    styleOfPointSelector.addEventListener('change', changeStyleOfPoint);
+    let sizeOfPointSelector = document.getElementById('sizeOfPointSelector');      
+    sizeOfPointSelector.addEventListener('change', changeSizeOfPoint);
+    let styleOfRatioSelector = document.getElementById('styleOfRatioSelector');      
+    styleOfRatioSelector.addEventListener('change', changeStyleOfRatio);
+    let sizeOfRatioSelector = document.getElementById('sizeOfRatioSelector');      
+    sizeOfRatioSelector.addEventListener('change', changeSizeOfRatio);
+    // gff
 }
 params.constructor = function()
 {
@@ -60,15 +75,15 @@ params.constructor = function()
     //dwq
     // gff
     // 线
-    this.styleOfLine = 1;
+    this.styleOfLine = "solidLine";
     this.widthOfLine = 10;
     this.colorOfLine = [247,202,201];
     // 点
-    this.shapeOfPoint = 1;
-    this.sizeOfPoint = 12;
+    this.styleOfPoint ="roundPoint";
+    this.sizeOfPoint = 24;
     this.colorOfPoint = [145,168,208];
     // 文本
-    this.fronOfRatio = "Arial";
+    this.styleOfRatio = "Arial";
     this.sizeOfRatio = 40;
     this.colorOfRatio = [145,168,208];
     // gff
@@ -81,7 +96,7 @@ params.paint = function()
     // dwq
 
     // cz
-    this.drawHistogram();
+    //this.drawHistogram();
     // cz
 
     // gff
@@ -349,55 +364,73 @@ params.drawLineChart = function (){
     let numOfData = this.data.length;
     let delta = this.delta;
     let first = this.first;
+    let minidata = this.mindata;
 
     // 线相关的参数
     let styleOfLine = this.styleOfLine;
     let widthOfLine = this.widthOfLine;
     let colorOfLine = this.colorOfLine;
     // 点相关的参数
-    let shapeOfPoint = this.shapeOfPoint
+    let styleOfPoint = this.styleOfPoint
     let sizeOfPoint = this.sizeOfPoint;
     let colorOfPoint = this.colorOfPoint;
     // 文本相关的参数
-    let fronOfRatio = this.fronOfRatio;
+    let styleOfRatio = this.styleOfRatio;
     let sizeOfRatio = this.sizeOfRatio;
     let colorOfRatio = this.colorOfRatio;
     
     ctx.imageSmoothingEnabled = true;
     // 画线
     ctx.beginPath();
-    // 虚线
-    if(styleOfLine === 2){
-        ctx.setLineDash([5, 5]);
-    }
-    for(let i = 0; i < numOfData; i++){
-        ctx.strokeStyle = `rgb(${colorOfLine[0]}, ${colorOfLine[1]}, ${colorOfLine[2]})`;
-        ctx.lineWidth = widthOfLine;
-        const x = first + i * delta;
-        const y = y0-(data[i][1]/dnum*dh)*1.25;
-        if(i === 0){
-            ctx.moveTo(x,y);
+    
+    if(styleOfLine === "dottedLine"){
+        ctx.setLineDash([20, 10]);
+        for(let i = 0; i < numOfData; i++){
+            ctx.strokeStyle = `rgb(${colorOfLine[0]}, ${colorOfLine[1]}, ${colorOfLine[2]})`;
+            ctx.lineWidth = widthOfLine;
+            const x = first + i * delta;
+            const y = y0-((data[i][1]-minidata)/dnum*dh)*1.2;
+            if(i === 0){
+                ctx.moveTo(x,y);
+            }
+            else{
+                ctx.lineTo(x,y);
+            }
         }
-        else{
-            ctx.lineTo(x,y);
-        }
+        ctx.stroke();
+        // 将线段样式改回实线
+        ctx.setLineDash([]);
     }
-    ctx.stroke();
+    else if(styleOfLine === "solidLine"){
+        for(let i = 0; i < numOfData; i++){
+            ctx.strokeStyle = `rgb(${colorOfLine[0]}, ${colorOfLine[1]}, ${colorOfLine[2]})`;
+            ctx.lineWidth = widthOfLine;
+            const x = first + i * delta;
+            const y = y0-((data[i][1]-minidata)/dnum*dh)*1.2;
+            if(i === 0){
+                ctx.moveTo(x,y);
+            }
+            else{
+                ctx.lineTo(x,y);
+            }
+        }
+        ctx.stroke();
+    }
 
     // 画点
     ctx.beginPath();
     for(let i = 0; i < numOfData; i++){
         const x = first + i * delta;
-        const y = y0-(data[i][1]/dnum*dh)*1.25;
+        const y = y0-((data[i][1]-minidata)/dnum*dh)*1.2;
         ctx.fillStyle = `rgb(${colorOfPoint[0]}, ${colorOfPoint[1]}, ${colorOfPoint[2]})`;
         // 圆
-        if(shapeOfPoint === 1){
+        if(styleOfPoint === "roundPoint"){
             ctx.beginPath();
-            ctx.arc(x,y,sizeOfPoint,0,2*Math.PI);
+            ctx.arc(x,y,sizeOfPoint/2,0,2*Math.PI);
             ctx.fill();
         }
         // 方
-        else if(shapeOfPoint === 2){
+        else if(styleOfPoint === "squarePoint"){
             ctx.beginPath();
             ctx.rect(x-sizeOfPoint/2,y-sizeOfPoint/2,sizeOfPoint,sizeOfPoint);
             ctx.fill();
@@ -412,12 +445,48 @@ params.drawLineChart = function (){
     }
     for(let i = 0; i < numOfData; i++){
         const x = first + i * delta;
-        const y = y0-(data[i][1]/dnum*dh)*1.25;
+        const y = y0-((data[i][1]-minidata)/dnum*dh)*1.2;
         var ratio = data[i][1]/sum*100;
         var text = ratio.toFixed(2)+'%';
-        ctx.font = `${sizeOfRatio}px ${fronOfRatio}`;
+        ctx.font = `${sizeOfRatio}px ${styleOfRatio}`;
         ctx.fillStyle = `rgb(${colorOfRatio[0]}, ${colorOfRatio[1]}, ${colorOfRatio[2]})`;
         ctx.fillText(text,x,y-30);    
     }
 }
+
+// 线段样式更改事件
+function changeStyleOfLine(){
+    params.styleOfLine = styleOfLineSelector.value;
+    params.repaint();
+}
+// 线段粗细更改事件
+function changeWidthOfLine(){
+    params.widthOfLine = widthOfLineSelector.value;
+    params.repaint();
+}
+// 线段颜色更改事件
+
+// 点样式更改事件
+function changeStyleOfPoint(){
+    params.styleOfPoint = styleOfPointSelector.value;
+    params.repaint();
+}
+// 点大小更改事件
+function changeSizeOfPoint(){
+    params.sizeOfPoint = sizeOfPointSelector.value;
+    params.repaint();
+}
+// 点颜色更改事件
+
+// 文本样式更改事件
+function changeStyleOfRatio(){
+    params.styleOfRatio = styleOfRatioSelector.value;
+    params.repaint();
+}
+// 文本大小更改事件
+function changeSizeOfRatio(){
+    params.sizeOfRatio = sizeOfRatioSelector.value;
+    params.repaint();
+}
+// 文本颜色更改事件
 // gff
