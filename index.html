@@ -59,6 +59,7 @@
             </div>
             <div id="axisEditor" class="content-page">
                 坐标轴
+                <color-board></color-board>
                 <!--TODO-->
                 <!--命名建议id用匈牙利，class单词中间加‘-’。为防止冲突，编辑器的类别前面要加编辑对象的名字，如“lineChartColor”,“histogramEditorFont”。-->
                 <clp-menu>
@@ -254,6 +255,31 @@
         </div>
     </template>
     <script src="collapsibleMenu.js"></script>
+    <!--调色板-->
+    <template id="cb">
+        <div class="container">
+            <div class="show">
+                <div class="rgb_value"></div>
+            </div>
+            <div class="color_control">
+                <div class="spectrum">
+                    <canvas></canvas>
+                    <div class="color_cursor"></div>
+                </div>
+    
+                <div class="opacity">
+                    <div class="opacity_bg"></div>
+                    <div id="opa_slide" class="slide"></div>
+                  </div>
+                <div class="hue">
+                    <div id="hue_slide" class="slide"></div>
+                </div>
+    
+            </div>
+        </div>
+    </template>
+    <script src="colorBoard.js"></script>
+    <script src="tinycolor-min.js"></script>
     <!--template区-->
 </body>
 
