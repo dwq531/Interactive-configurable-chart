@@ -43,9 +43,9 @@ class ColorBoard extends HTMLElement {
       }
       
       .container {
-        width: 520px;
+        width: 100%;
         height: 195px;
-        border: 1px solid burlywood;
+        border: 1px solid grey;
       }
       
       .show {
@@ -67,7 +67,7 @@ class ColorBoard extends HTMLElement {
       }
       
       .color_control {
-        height: 150px;
+        height: 140px;
         margin: 10px 10px;
         display: flex;
         align-items: center;
@@ -75,7 +75,7 @@ class ColorBoard extends HTMLElement {
       }
       
       .spectrum {
-        width: 430px;
+        width: 80%;
         height: 100%;
         position: relative;
       }
@@ -104,7 +104,7 @@ class ColorBoard extends HTMLElement {
       
       .opacity {
         position: relative;
-        width: 25px;
+        width: 8%;
         height: 100%;
         background: var(--bg);
         background-size: 10px 10px;
@@ -120,7 +120,7 @@ class ColorBoard extends HTMLElement {
       
       .hue {
         position: relative;
-        width: 25px;
+        width: 8%;
         height: 100%;
         background: linear-gradient(
           to bottom,
@@ -136,9 +136,9 @@ class ColorBoard extends HTMLElement {
       }
       
       .slide {
-        width: 27px;
+        width: 110%;
         height: 5px;
-        border: 1px solid #eee;
+        border: 1px solid white;
         position: absolute;
         left: -2px;
         top: 0;
@@ -155,38 +155,43 @@ class ColorBoard extends HTMLElement {
         const opaSlide = opacity.children[1];
         const hueSlide = hue.children[0];
         const spectrum = container.children[1].children[0];
-        const cursor = spectrum.children[1];
         const canvas = spectrum.children[0];
+        const cursor = spectrum.children[1];
         const ctx = canvas.getContext('2d');
         const speRect = canvas.getBoundingClientRect();
 
+        //绘制色谱,初始色为红色
         var color = '#f00';
-        //var method = "toRgbString";
-        //绘制色谱
         this.drawSpectrum(canvas, color, ctx);
+
+
         let isDraw = false;
+        //鼠标在画布外
+        canvas.onmouseout = () => (isDraw = false);
+        //鼠标抬起
+        container.onmouseup = () => (isDraw = false);
         //鼠标按下
         container.onmousedown = () => (isDraw = true);
         //鼠标移动
         container.onmousemove = (e) => {
             if (!isDraw) return;
             //通过鼠标位置计算滑块位置，然后计算比例修改透明度和色相值
-            //透明度
+            //计算透明度
             if (e.target === opacity || e.target.parentNode === opacity) {
                 let y = e.pageY - opacity.getBoundingClientRect().top;
                 if (y < 0) y = 0.1;
-                if (y > 150) y = 145;
+                if (y > opacity.offsetHeight) y = opacity.offsetHeight-5;
                 opaSlide.style.top = y + "px";
                 this.curColor.a = 1 - y / opacity.offsetHeight;
+                console.log(opacity.offsetHeight+"*");
             }
             //颜色
             if (e.target === hue || e.target.parentNode === hue) {
                 let y = e.pageY - hue.getBoundingClientRect().top;
                 if (y < 0) y = 0.1;
-                if (y > 150) y = 145;
+                if (y > hue.offsetHeight) y = hue.offsetHeight-5;
                 hueSlide.style.top = y + "px";
                 this.curColor.h = (y / hue.offsetHeight) * 360;
-                //draw(tinycolor(bg_color));
                 this.drawSpectrum(canvas, tinycolor(this.curColor), ctx);
             }
 
@@ -222,10 +227,7 @@ class ColorBoard extends HTMLElement {
             rgb_value.style.color = parseInt(this.curColor.l) >= 50 ? "black" : "white";
             rgb_value.innerHTML = color;
         };
-        //鼠标在画布外
-        canvas.onmouseout = () => (isDraw = false);
-        //鼠标抬起
-        container.onmouseup = () => (isDraw = false);
+        
     }
     drawSpectrum(canvas, color, ctx) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
