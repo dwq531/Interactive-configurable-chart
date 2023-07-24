@@ -56,7 +56,7 @@ params.constructor = function()
     this.colorOfLine = [247,202,201];
     // 点
     this.shapeOfPoint = 1;
-    this.sizeOfPoint = 10;
+    this.sizeOfPoint = 12;
     this.colorOfPoint = [145,168,208];
     // 文本
     this.fronOfRatio = "Arial";
@@ -76,9 +76,6 @@ params.paint = function()
     // cz
 
     // gff
-    this.shapeOfPoint = 1;
-    this.sizeOfPoint = 10;
-    this.styleOfLine = 1;
     this.drawLineChart();
     // gff
     

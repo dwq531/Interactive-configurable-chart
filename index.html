@@ -120,25 +120,97 @@
                     </span>
                     <span slot="content2">
                         粗细：
-                        <select id = WidthOfLineSelector>
+                        <select id = widthOfLineSelector>
                             <!--在js里循环生成-->
                         </select>
                         <script>
-                            const mySelect = document.getElementById('WidthOfLineSelector');
+                            const lineSelect = document.getElementById('widthOfLineSelector');
                             for (let i = 1; i <= 30; i++) {
                                 const option = document.createElement('option');
                                 option.text = i + 'px';
                                 if(i === 10){
                                     option.selected = true;
                                 }
-                                mySelect.add(option); 
+                                lineSelect.add(option); 
                             }
                         </script>
                     </span>
                     <span slot="content3">
-                        <p>asdaksnxkqjwnxnkas</p>
-                        <p>!!!!!!!!!!1</p>
-                        <p>测试测试啊吧啊吧吧吧吧</p>
+                        颜色：
+                        <select id = colorOfLineSelector>
+                            
+                        </select>
+                    </span>
+                </clp-menu>
+
+                <clp-menu rownum="3">
+                    <span slot="title">点</span>
+                    <span slot="content1">
+                        样式：
+                        <select id = styleOfPointSelector>
+                            <option value="roundPoint">圆形</option>
+                            <option value="squarePoint">正方形</option>
+                        </select>
+                    </span>
+                    <span slot="content2">
+                        大小：
+                        <select id = sizeOfPointSelector>
+                            <!--在js里循环生成-->
+                        </select>
+                        <script>
+                            const pointSelect = document.getElementById('sizeOfPointSelector');
+                            for (let i = 1; i <= 30; i++) {
+                                const option = document.createElement('option');
+                                option.text = i + 'px';
+                                if(i === 12){
+                                    option.selected = true;
+                                }
+                                pointSelect.add(option); 
+                            }
+                        </script>
+                    </span>
+                    <span slot="content3">
+                        颜色：
+                        <select id = colorOfLineSelector>
+                            
+                        </select>
+                    </span>
+                </clp-menu>
+
+                <clp-menu rownum="3">
+                    <span slot="title">文本</span>
+                    <span slot="content1">
+                        字体：
+                        <select id = styleOfRatioSelector>
+                            <option value="Arial, sans-serif" style="font-family: Arial, sans-serif;">Arial</option>
+                            <option value="Helvetica, sans-serif" style="font-family: Helvetica, sans-serif;">Helvetica</option>
+                            <option value="Times New Roman, serif" style="font-family: Times New Roman, serif;">Times New Roman</option>
+                            <option value="Courier New, monospace" style="font-family: Courier New, monospace;">Courier New</option>
+                            <option value="Verdana, sans-serif" style="font-family: Verdana, sans-serif;">Verdana</option>
+                        </select>
+                    </span>
+                    <span slot="content2">
+                        字号：
+                        <select id = sizeOfRatioSelector>
+                            <!--在js里循环生成-->
+                        </select>
+                        <script>
+                            const ratioSelect = document.getElementById('sizeOfRatioSelector');
+                            for (let i = 30; i <= 70; i+=2) {
+                                const option = document.createElement('option');
+                                option.text = i + 'px';
+                                if(i === 40){
+                                    option.selected = true;
+                                }
+                                ratioSelect.add(option); 
+                            }
+                        </script>
+                    </span>
+                    <span slot="content3">
+                        颜色：
+                        <select id = colorOfLineSelector>
+                            
+                        </select>
                     </span>
                 </clp-menu>
             </div>
