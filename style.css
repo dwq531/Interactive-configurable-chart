@@ -184,8 +184,8 @@ select {
     width: 200px;
   }
   
-  /* 下拉框选项的样式 */
-  option {
+/* 下拉框选项的样式 */
+option {
     font-family: Arial, sans-serif;
     color: rgb(51, 51, 51);
     /*一个待解决的小问题*/
@@ -195,5 +195,25 @@ select {
     /*所以选择了用增大字号来撑大下拉框选项*/
     font-size: 20px;
   }
-  
+
+
+/* 勾选框样式 */
+.custom-checkbox {
+    width: 20px;
+    height: 20px;
+} 
+/* 勾选框右侧文字的样式 */
+.checkbox-text {
+    color: #000000; 
+    font-size: 18px; 
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    margin-left: 8px;
+}
+/* 添加flexbox布局 */
+.flex-container {
+    display: flex; /* 使用flexbox布局 */
+    align-items: center; /* 在交叉轴上居中对齐 */
+}
+
 /*  gff   */
