@@ -17,6 +17,14 @@ window.onload = () => {
     }
     params.constructor();
     params.paint();
+    // dwq
+    let table = document.getElementById("dataInputTable");
+    table.addEventListener("input",table_input);
+    let tableAdd = document.getElementById("tableAddButton");
+    tableAdd.addEventListener("click",table_add_row);
+    let tableRemove = document.getElementById("tableSubButton");
+    tableRemove.addEventListener("click",table_remove_row);
+    // dwq
 }
 params.constructor = function()
 {
@@ -34,21 +42,22 @@ params.constructor = function()
     //cz
     
     // dwq
-    this.data = new Array();// 存输入数据的二维数组
-    this.getData();
-    this.datamin = Math.max(this.data);
-    this.datamax = Math.min(this.data);
-    this.padding=150;
     // x0,y1
     //   |
     // x0,y0------x1,y0
+    this.padding=150;
     this.x0=this.padding,this.y0=this.canvas.height-this.padding,this.x1=this.canvas.width-this.padding,this.y1=this.padding;
-    this.delta=(this.x1-this.x0)*1.0/this.data.length;// 点之间的距离
-    this.first=this.x0+this.delta/2; // 第一个点的位置
-    this.dh = (this.y0-this.y1-20)/6; // y轴刻度间隔像素
-    this.dnum = 1;// y轴单位刻度数值的增长
+    this.delta;// 点之间的距离
+    this.first; // 第一个点的位置
+    this.mindata;// 最小刻度
+    this.dnum;// y轴单位刻度数值的增长
+    this.dh; // y轴刻度间隔像素
+    this.data = new Array();// 存输入数据的二维数组
+    this.kedushu;// 刻度数
+    this.getData();
+    
     this.axisColor = "blue";
-
+    //dwq
     // gff
     // 线
     this.styleOfLine = 1;
@@ -66,9 +75,9 @@ params.constructor = function()
 }
 params.paint = function() 
 {
+    //dwq
     this.drawAxis();
     this.darwScaleLine();
-    
     // dwq
 
     // cz
@@ -92,13 +101,42 @@ function sidenavbut_clicked() {
 params.getData = function()
 {
     let table = document.getElementById("dataInputTableBody");
+    this.data = [];
+    // 读数据
     for(let i=0;i<table.children.length;i++)
     {
         let row = new Array(2);
-        row[0] = table.children[i].children[0].innerHTML;
-        row[1] = table.children[i].children[1].innerHTML;
+        row[0] = parseFloat(table.children[i].children[0].innerHTML);
+        row[1] = parseFloat(table.children[i].children[1].innerHTML);
         this.data.push(row);
     }
+    // 自适应
+    this.delta = (this.x1-this.x0)*1.0/this.data.length;
+    this.first = this.x0+this.delta/2;
+    let maxdata = this.data[0][1],mindata = this.data[0][1];
+    for(let i=0;i<this.data.length;i++)
+    {
+        if(this.data[i][1]<mindata)
+            mindata = this.data[i][1];
+        if(this.data[i][1]>maxdata)
+            maxdata = this.data[i][1];
+    }
+    let span = maxdata-mindata;
+    if(span < 10)
+    {
+        this.kedushu = span+3;
+        this.dnum = 1;
+    }
+    else
+    {
+        this.dnum = ~~((span/8)/5)*5+5;// 刻度数为8时，dnum最接近的5的倍数
+        this.kedushu = span/this.dnum + 3;
+    }
+    this.dh = (this.y0-this.y1-20)/(this.kedushu-1);
+    this.mindata = mindata-this.dnum;
+    if(this.mindata < 0)
+        this.mindata = 0;
+    console.log(this.mindata);
 }
 
 params.drawAxis = function()
@@ -130,6 +168,7 @@ params.drawAxis = function()
     ctx.stroke();
     // 轴名称
     ctx.textAlign="center";
+    ctx.fillStyle = "black";
     ctx.font = "35px Microsoft YaHei";
     ctx.fillText("产量",x0-90,y1+50);
     ctx.fillText("（万吨）",x0-90,y1+100);
@@ -138,6 +177,7 @@ params.drawAxis = function()
 params.darwScaleLine = function()
 {
     let ctx=this.ctx,x0=this.x0,y0=this.y0,y1=this.y1,x1=this.x1,delta=this.delta;
+    
     ctx.strokeStyle = this.axisColor;
     ctx.textAlign="center";
     ctx.beginPath();
@@ -150,13 +190,56 @@ params.darwScaleLine = function()
         ctx.stroke();
         ctx.fillText(this.data[i-1][0],this.first+(i-1)*delta,y0+40);
     }
-    for(let i=1;i<=6;i++)
+    let now = this.mindata;
+    for(let i=1;i<= this.kedushu;i++)
     {
-        ctx.moveTo(x0,y0-i*this.dh);
-        ctx.lineTo(x0-10,y0-i*this.dh);
+        ctx.moveTo(x0,y0-(i-1)*this.dh);
+        ctx.lineTo(x0-10,y0-(i-1)*this.dh);
         ctx.stroke();
-        ctx.fillText(i*this.dnum,x0-30,y0-i*this.dh+15);
+        ctx.fillText(now,x0-30,y0-(i-1)*this.dh+15);
+        now += this.dnum;
     }
+}
+params.repaint = function()
+{
+    this.ctx.clearRect(0,0,params.canvas.width,params.canvas.height);
+    this.paint();
+}
+// 输入表格事件
+function table_input(event)
+{
+    params.getData();
+    params.repaint();
+}
+// 表格加行事件
+function table_add_row()
+{
+    let body = document.getElementById("dataInputTableBody");
+    let newrow = document.createElement('tr');
+    let year = document.createElement('td');
+    year.innerHTML = 2023;
+    year.setAttribute('contenteditable',true);
+    newrow.appendChild(year);
+    let num = document.createElement('td');
+    num.innerHTML = body.children[0].children[1].innerHTML;
+    num.setAttribute('contenteditable',true);
+    newrow.appendChild(num);
+    body.appendChild(newrow);
+    params.getData();
+    params.repaint();
+}
+function table_remove_row()
+{
+    let body = document.getElementById("dataInputTableBody");
+    if(body.children.length <= 1)
+    {
+        alert("行数已达最少，不能再减少行数了！");
+        return;
+    }
+    let row = body.children[body.children.length-1];
+    row.remove();
+    params.getData();
+    params.repaint();
 }
 // dwq
 
