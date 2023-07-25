@@ -476,6 +476,27 @@ params.drawHistogram=function()
         
         img.src = document.getElementById('image').src;//切换纹理样式
         
+        for(var i=0;i<data.length;i++)
+            {
+                ctx.beginPath();
+        
+                // //绘制柱状图
+                var recWidth=delta/3;
+                var recHeight = (data[i][1]-mindata)/dnum*dh;
+                var recX=x0+delta/3+delta*i;
+                var recY=y0;
+                
+                // // 创建纹理填充样式
+                const pattern = ctx.createPattern(document.getElementById('image'), "repeat");
+                ctx.fillStyle = pattern;
+                //ctx.fillStyle=singleColor; 
+                
+                ctx.fillRect(recX,recY,recWidth,-recHeight);//绘制渐变图形
+                //console.log(recX);
+              
+            }
+
+            /*
         img.onload = function(){
             //console.log("213");
             for(var i=0;i<data.length;i++)
@@ -497,7 +518,7 @@ params.drawHistogram=function()
                 //console.log(recX);
               
             }
-        }
+        }*/
     }
 
     
@@ -548,7 +569,9 @@ function selectImage(file) {
     params.reader = new FileReader();
     params.reader.onload = function (evt) {
         document.getElementById('image').src = evt.target.result;
+        document.getElementById('image').onload=function(){
         params.repaint();
+        }
     }
     params.reader.readAsDataURL(file.files[0]);
 }
