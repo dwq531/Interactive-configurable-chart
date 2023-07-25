@@ -190,10 +190,9 @@ body {
     background-color: white;
 }
 #sidenavRectangleContent{
-    top:50px;
-    left:0px;
+    
     width:100%;
-    height:calc(100% - 50px);
+    height:auto;
     display: flex;/*通过a标签锚点定位切换页面，https://blog.csdn.net/m0_53016870/article/details/126582766 */
     overflow:hidden;
 }
@@ -223,6 +222,15 @@ body {
     float:left;
     padding:8px 0px 0px 0px;
     text-decoration: none;
+}
+.Rectanglecontent-page{
+    width:var(--sidenavwidth);
+    height:fit-content;
+    width:100%;
+    background: rgb(246, 246, 246);
+    flex-shrink: 0;
+    overflow-y:scroll;
+    padding: 15px;
 }
 /*  cz   */
 

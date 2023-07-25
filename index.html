@@ -91,22 +91,25 @@
                             <a class="sidenavRectangle-button" id="textureColorNav" href="#textureFill">纹理填充</a>
                         </div>
                         <div id="sidenavRectangleContent">
-                            <div id="singleColorFill" class="content-page">
+                            <div id="singleColorFill" class="Rectanglecontent-page">
+                                <p>请选择要填充的颜色</p>
+                                <p>(默认初始颜色为蓝色)</p>
                                 <color-board id="singleColor"></color-board>
                             </div>
-                            <div id="gradientFill" class="content-page">
+                            <div id="gradientFill" class="Rectanglecontent-page">
+                                <p>请选择要填充的颜色</p>
+                                <p>(默认初始颜色为橙色和黑色)</p>
+                                <p>颜色1（上方颜色）</p>
                                 <color-board id="gradientColor1"></color-board>
+                                <p>颜色2（下方颜色）</p>
                                 <color-board id="gradientColor2"></color-board>
                             </div>
-                            <div id="textureFill" class="content-page">dddgdfjd</div>
+                            <div id="textureFill" class="Rectanglecontent-page">
+                                <p>(默认初始纹理为橙色方格)</p>
+                                <img id="image"src="img/red.png"/>
+                                <input type="file" id="textureSelect" onchange="selectImage(this);"/>
+                            </div>
                         </div>
-                        <!--
-                            <select id = "styleOfRectangle">
-                            <option value="singleFill">单色填充</option>
-                            <option value="gradientFill">渐变填充</option>
-                            <option value="textureFill">纹理填充</option>
-                        </select>
-                        -->
                         
                     </span> 
                 </clp-menu>
