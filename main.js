@@ -59,6 +59,16 @@ window.onload = () => {
     styleOfTextSelector.addEventListener('change', changeStyleOfText);
     let sizeOfTextSelector = document.getElementById('sizeOfTextSelector');      
     sizeOfTextSelector.addEventListener('change', changeSizeOfText);
+
+    // 柱状图矩形侧边栏按钮添加事件
+    let rectangleButs = document.getElementsByClassName("sidenavRectangle-button");
+    for (let but of rectangleButs) {
+        but.addEventListener("click", sidenavRectanglebut_clicked);
+    }
+    rectangleButs = document.getElementsByClassName("sidenavRectangle-button-clicked");
+    for (let but of rectangleButs) {
+        but.addEventListener("click", sidenavRectanglebut_clicked);
+    }
     //cz
 }
 params.constructor = function()
@@ -437,6 +447,14 @@ function changeHistogram(){
         params.histogramVisible = true;
         params.repaint();
     }
+}
+//柱状图矩形侧边栏按钮点击事件
+function sidenavRectanglebut_clicked() {
+    let buts = document.getElementsByClassName("sidenavRectangle-button-clicked");
+    for (let but of buts) {
+        but.className = "sidenavRectangle-button";
+    }
+    this.className = "sidenavRectangle-button-clicked";
 }
 // cz
 
