@@ -6,6 +6,7 @@ const TEXTURE_FILL=3;
 
 var params =new Object();
 window.onload = () => {
+
     // 侧边栏导航按钮添加事件
     let buts = document.getElementsByClassName("sidenav-button");
     for (let but of buts) {
@@ -49,6 +50,9 @@ window.onload = () => {
     lineChartCheckbox.addEventListener('change',changeLineChart);
     let numInput = document.getElementById('numInput');
     numInput.addEventListener('input',changeNum);
+    // 监听鼠标中轮滚动事件
+    let canvasContainer = document.getElementById('chartContent');
+    canvasContainer.addEventListener('wheel',handleWheel);
     // gff
 
 
@@ -157,6 +161,8 @@ params.constructor = function()
     this.decimalNum = 2;
     // 折线图是否显示
     this.lineChartVisible = true;
+    // 初始缩放比例
+    this.scale = 1.0; 
     // gff
 }
 params.paint = function() 
@@ -305,7 +311,8 @@ params.darwScaleLine = function()
 }
 params.repaint = function()
 {
-    this.ctx.clearRect(0,0,params.canvas.width,params.canvas.height);
+    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //this.ctx.clearRect(0,0,params.canvas.width,params.canvas.height);
     this.paint();
 }
 // 输入表格事件
@@ -655,5 +662,64 @@ function changeLineChart(){
 function changeNum(event){
     params.decimalNum =  parseInt(event.target.value);
     params.repaint();
+}
+
+// 鼠标中轮滚动响应
+function handleWheel(event){
+    let canvasContainer = document.getElementById('chartContent');
+    let canvas = document.getElementById('canvas');
+    
+    const scaleStep = 0.1; // 缩放步长
+    // 初始div大小
+    const containerWidth = canvasContainer.clientWidth;
+    const containerHeight = canvasContainer.clientHeight;
+
+    event.preventDefault(); // 阻止页面滚动
+
+    // 根据滚轮的deltaY值判断滚动方向
+    if (event.deltaY < 0) {
+        params.scale += scaleStep; // 向前滚动，增大缩放比例，放大
+    } 
+    else if(event.deltaY > 0){
+        params.scale -= scaleStep; // 向后滚动，减小缩放比例，缩小
+    }
+    // 缩放比例限制
+    if (params.scale < 0.5) {
+        params.scale = 0.5;
+    }
+    if (params.scale > 1.8) {
+        params.scale = 1.8;
+    }
+
+    // 计算Canvas缩放后的宽高
+    const canvasWidth = 700 * params.scale;
+    const canvasHeight = 500 * params.scale;
+    // 外部div缩放
+    canvasContainer.style.transform = `scale(${params.scale})`;
+    canvasContainer.style.transformOrigin = '50% 50%';
+
+    // 设置Canvas的宽高以保持相对大小
+    params.canvas.width = canvasWidth * 2;
+    params.canvas.height = canvasHeight * 2;
+    params.canvas.style.width = canvasWidth;
+    params.canvas.style.height = canvasHeight;
+     // 清空画布
+    params.ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // canvas缩放
+    params.ctx.save();
+    params.ctx.scale(params.scale, params.scale);
+
+    // 设置canvasContainer的位置以确保图在中心
+    // 中心点的坐标感觉应该是用chart的长宽动态确定的，但是不知道为什么会乱飞所以先设成固定的、、、
+    const centerX = 500; // 中心点x坐标
+    const centerY = 200; // 中心点y坐标
+    const containerX = centerX;
+    const containerY = centerY;
+    canvasContainer.style.left = `${containerX}px`;
+    canvasContainer.style.top = `${containerY}px`;
+
+    params.repaint();
+    params.ctx.restore();
 }
 // gff
