@@ -15,8 +15,7 @@ window.onload = () => {
     for (let but of buts) {
         but.addEventListener("click", sidenavbut_clicked);
     }
-    params.constructor();
-    params.paint();
+    
     // dwq
     // 输入表格相关事件
     let table = document.getElementById("dataInputTable");
@@ -30,8 +29,14 @@ window.onload = () => {
         let test = document.getElementById("colorTest");
         test.style.background = e.detail;
     })
+    let dataInputCheckBox = document.getElementsByClassName("dataInputCheckBox");
+    for(let box of dataInputCheckBox)
+    {
+        box.checked=true;
+        box.addEventListener("change",table_check);
+    }
     // dwq
-
+    
     // gff
     let styleOfLineSelector = document.getElementById('styleOfLineSelector');      
     styleOfLineSelector.addEventListener('change', changeStyleOfLine);
@@ -60,6 +65,8 @@ window.onload = () => {
     let sizeOfTextSelector = document.getElementById('sizeOfTextSelector');      
     sizeOfTextSelector.addEventListener('change', changeSizeOfText);
     //cz
+    params.constructor();
+    params.paint();
 }
 params.constructor = function()
 {
@@ -129,7 +136,7 @@ params.paint = function()
         this.drawLineChart();
     }
     // gff
-    
+
     // cz
     if(this.histogramVisible === true)
     {
@@ -153,9 +160,12 @@ params.getData = function()
     // 读数据
     for(let i=0;i<table.children.length;i++)
     {
+        let now = table.children[i];
+        if(now.children[2].children[0].checked==false)
+            continue;
         let row = new Array(2);
-        row[0] = parseFloat(table.children[i].children[0].innerHTML);
-        row[1] = parseFloat(table.children[i].children[1].innerHTML);
+        row[0] = parseFloat(now.children[0].innerHTML);
+        row[1] = parseFloat(now.children[1].innerHTML);
         if(!row[0])
             row[0]=0;
         if(!row[1])
@@ -192,7 +202,7 @@ params.getData = function()
     else
     {
         this.dnum = ~~((span/8)/5)*5+5;// 刻度数为8时，dnum最接近的5的倍数
-        this.kedushu = Math.floor(maxdata/5)-Math.floor(mindata/5)+2;
+        this.kedushu = Math.floor(maxdata/this.dnum)-Math.floor(mindata/this.dnum)+2;
     }
     this.dh = (this.y0-this.y1-20)/(this.kedushu-1);
     this.mindata = mindata-this.dnum;
@@ -276,19 +286,13 @@ function table_input(event)
 function table_add_row()
 {
     let body = document.getElementById("dataInputTableBody");
-    let newrow = document.createElement('tr');
-    let year = document.createElement('td');
-    year.innerHTML = 2023;
-    year.setAttribute('contenteditable',true);
-    newrow.appendChild(year);
-    let num = document.createElement('td');
-    num.innerHTML = body.children[0].children[1].innerHTML;
-    num.setAttribute('contenteditable',true);
-    newrow.appendChild(num);
-    body.appendChild(newrow);
+    const child = body.children[body.children.length-1];
+    const clonerow = child.cloneNode(true);
+    body.appendChild(clonerow);
     params.getData();
     params.repaint();
 }
+// 表格减行事件
 function table_remove_row()
 {
     let body = document.getElementById("dataInputTableBody");
@@ -299,6 +303,12 @@ function table_remove_row()
     }
     let row = body.children[body.children.length-1];
     row.remove();
+    params.getData();
+    params.repaint();
+}
+// 表格筛选事件
+function table_check()
+{
     params.getData();
     params.repaint();
 }
