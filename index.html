@@ -58,22 +58,12 @@
                 <button id="tableSubButton">减少一行</button>
             </div>
             <div id="axisEditor" class="content-page">
-                坐标轴
-                
-                <!--TODO-->
-                <!--命名建议id用匈牙利，class单词中间加‘-’。为防止冲突，编辑器的类别前面要加编辑对象的名字，如“lineChartColor”,“histogramEditorFont”。-->
-                <clp-menu>
+                <clp-menu rownum="1">
                     <span slot="title">标题标题</span>
-                    <span slot="content1"><color-board></color-board></span>
-                </clp-menu>
-                <clp-menu rownum="3">
-                    <span slot="title">标题标题</span>
-                    <span slot="content1">内容内容1</span>
-                    <span slot="content2">内容内容2</span>
-                    <span slot="content3">
-                        <p>asdaksnxkqjwnxnkas</p>
-                        <p>!!!!!!!!!!1</p>
-                        <p>测试测试啊吧啊吧吧吧吧</p>
+                    <span slot="content1">
+                        <p id="colorTest">aaaaa</p>
+                        <color-board id="mycb"></color-board>
+                    </span>
                     </span>
                 </clp-menu>
             </div>
@@ -303,7 +293,7 @@
             <button class="editor-box-title">
                 <slot name="title">文字样式</slot>
             </button>
-            <div class="editor-box-hidden">
+            <div class="editor-box-content">
                 <div class="editor-box-bag">
                     <div class="editor-box-row">
                         <slot name="content1">字体</slot>

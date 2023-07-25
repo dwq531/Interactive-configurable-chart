@@ -159,6 +159,14 @@ class ColorBoard extends HTMLElement {
         const cursor = spectrum.children[1];
         const ctx = canvas.getContext('2d');
         const speRect = canvas.getBoundingClientRect();
+        // 颜色改变事件
+        /*
+        rgb_value.addEventListener("change",()=>{
+            const event = new CustomEvent("change",{detail:this.innerHTML});
+            console.log(this.innerHTML);
+            this.dispatchEvent(event);
+        })
+        */
 
         //绘制色谱,初始色为红色
         var color = '#f00';
@@ -224,6 +232,9 @@ class ColorBoard extends HTMLElement {
             rgb_value.style.background = color;
             rgb_value.style.color = parseInt(this.curColor.l) >= 50 ? "black" : "white";
             rgb_value.innerHTML = color;
+            const event = new CustomEvent("rgbchange",{detail:color});
+            this.dispatchEvent(event);
+            //console.log(event);
         };
         
     }

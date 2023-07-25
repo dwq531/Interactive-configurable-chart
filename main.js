@@ -18,12 +18,18 @@ window.onload = () => {
     params.constructor();
     params.paint();
     // dwq
+    // 输入表格相关事件
     let table = document.getElementById("dataInputTable");
     table.addEventListener("input",table_input);
     let tableAdd = document.getElementById("tableAddButton");
     tableAdd.addEventListener("click",table_add_row);
     let tableRemove = document.getElementById("tableSubButton");
     tableRemove.addEventListener("click",table_remove_row);
+    let mycb = document.getElementById("mycb");
+    mycb.addEventListener("rgbchange",(e)=>{
+        let test = document.getElementById("colorTest");
+        test.style.background = e.detail;
+    })
     // dwq
 
     // gff
@@ -91,7 +97,7 @@ params.constructor = function()
     this.kedushu;// 刻度数
     this.getData();
     
-    this.axisColor = "blue";
+    this.axisColor = "gray";
     //dwq
     // gff
     // 线
@@ -179,7 +185,7 @@ params.getData = function()
             maxdata = this.data[i][1];
     }
     let span = maxdata-mindata;
-    if(span < 10)
+    if(span <= 10)
     {
         this.kedushu = span+3;
         this.dnum = 1;
@@ -187,7 +193,7 @@ params.getData = function()
     else
     {
         this.dnum = ~~((span/8)/5)*5+5;// 刻度数为8时，dnum最接近的5的倍数
-        this.kedushu = span/this.dnum + 3;
+        this.kedushu = Math.floor(maxdata/5)-Math.floor(mindata/5)+2;
     }
     this.dh = (this.y0-this.y1-20)/(this.kedushu-1);
     this.mindata = mindata-this.dnum;

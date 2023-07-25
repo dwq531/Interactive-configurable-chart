@@ -159,7 +159,7 @@ body {
     background: rgb(231, 231, 231);
 }
 #tableAddButton,#tableSubButton{
-    width:145px;
+    width:140px;
     height:35px;
     border:rgb(157, 157, 157) solid 1px;
     margin-top:5px;
