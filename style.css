@@ -86,6 +86,10 @@ body {
 #charinner{
     overflow:scroll;
 }
+#canvas{
+    height: 100%;
+    width: 100%;
+}
 #sidenavMenu{
     position:absolute;
     top:0;
