@@ -19,8 +19,12 @@ window.onload = () => {
     
     // dwq
     // 输入表格相关事件
-    let table = document.getElementById("dataInputTable");
-    table.addEventListener("input",table_input);
+    let table = document.getElementsByClassName("dataInputContent");
+    for(let content of table)
+    {
+        console.log(content);
+        content.addEventListener("input",table_input);
+    }
     let tableAdd = document.getElementById("tableAddButton");
     tableAdd.addEventListener("click",table_add_row);
     let tableRemove = document.getElementById("tableSubButton");
@@ -337,6 +341,7 @@ params.repaint = function()
 // 输入表格事件
 function table_input(event)
 {
+    console.log(this);
     params.getData();
     params.repaint();
 }
@@ -346,6 +351,9 @@ function table_add_row()
     let body = document.getElementById("dataInputTableBody");
     const child = body.children[body.children.length-1];
     const clonerow = child.cloneNode(true);
+    clonerow.children[0].addEventListener("input",table_input);
+    clonerow.children[1].addEventListener("input",table_input);
+    clonerow.children[2].children[0].addEventListener("change",table_check);
     body.appendChild(clonerow);
     params.getData();
     params.repaint();
@@ -367,6 +375,13 @@ function table_remove_row()
 // 表格筛选事件
 function table_check()
 {
+    
+    if(params.data.length == 1 && this.checked == false)
+    {
+        this.checked = true;
+        alert("已经是最后一组数据，不能再减少了！");
+        return;
+    }
     params.getData();
     params.repaint();
 }
