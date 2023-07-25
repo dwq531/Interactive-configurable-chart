@@ -169,8 +169,7 @@ class ColorBoard extends HTMLElement {
         */
 
         //绘制色谱,初始色为红色
-        var color = '#f00';
-        this.drawSpectrum(canvas, color, ctx);
+        this.drawSpectrum(canvas, '#f00', ctx);
 
 
         let isDraw = false;
@@ -199,7 +198,12 @@ class ColorBoard extends HTMLElement {
                 if (y > hue.offsetHeight) y = hue.offsetHeight-5;
                 hueSlide.style.top = y + "px";
                 this.curColor.h = (y / hue.offsetHeight) * 360;
-                this.drawSpectrum(canvas, tinycolor(this.curColor), ctx);
+               
+                let gradientColor=this.curColor;
+                gradientColor.s="100%";
+                gradientColor.a=1;
+                gradientColor.l="50%";
+                this.drawSpectrum(canvas, tinycolor(gradientColor), ctx);
             }
 
             if (e.target === spectrum || e.target.parentNode === spectrum) {
