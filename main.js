@@ -124,19 +124,18 @@ params.paint = function()
     this.darwScaleLine();
     // dwq
 
-    // cz
-    if(this.histogramVisible === true)
-    {
-        this.drawHistogram();
-    }
-    // cz
-
     // gff
     if(this.lineChartVisible === true){
         this.drawLineChart();
     }
     // gff
     
+    // cz
+    if(this.histogramVisible === true)
+    {
+        this.drawHistogram();
+    }
+    // cz
 }
 // 侧边栏导航按钮点击事件
 function sidenavbut_clicked() {
