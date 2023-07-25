@@ -47,18 +47,27 @@ window.onload = () => {
     styleOfLineSelector.addEventListener('change', changeStyleOfLine);
     let widthOfLineSelector = document.getElementById('widthOfLineSelector');      
     widthOfLineSelector.addEventListener('change', changeWidthOfLine);
+    let colorOfLineSelector= document.getElementById("lineColorBoard");
+    colorOfLineSelector.addEventListener("rgbchange",changeColorOfLine);
+
     let styleOfPointSelector = document.getElementById('styleOfPointSelector');      
     styleOfPointSelector.addEventListener('change', changeStyleOfPoint);
     let sizeOfPointSelector = document.getElementById('sizeOfPointSelector');      
     sizeOfPointSelector.addEventListener('change', changeSizeOfPoint);
+    let colorOfPointSelector= document.getElementById("pointColorBoard");
+    colorOfPointSelector.addEventListener("rgbchange",changeColorOfPoint);
+    
     let styleOfRatioSelector = document.getElementById('styleOfRatioSelector');      
     styleOfRatioSelector.addEventListener('change', changeStyleOfRatio);
     let sizeOfRatioSelector = document.getElementById('sizeOfRatioSelector');      
     sizeOfRatioSelector.addEventListener('change', changeSizeOfRatio);
     let lineChartCheckbox = document.getElementById('lineChartCheckbox');
     lineChartCheckbox.addEventListener('change',changeLineChart);
+    let colorOfRatioSelector= document.getElementById("ratioColorBoard");
+    colorOfRatioSelector.addEventListener("rgbchange",changeColorOfRatio);
     let numInput = document.getElementById('numInput');
     numInput.addEventListener('input',changeNum);
+    
     // 监听鼠标中轮滚动事件
     let canvasContainer = document.getElementById('chartContent');
     canvasContainer.addEventListener('wheel',handleWheel);
@@ -169,15 +178,15 @@ params.constructor = function()
     // 线
     this.styleOfLine = "solidLine";
     this.widthOfLine = 10;
-    this.colorOfLine = [247,202,201];
+    this.colorOfLine = "#f7cac9";
     // 点
     this.styleOfPoint ="roundPoint";
     this.sizeOfPoint = 24;
-    this.colorOfPoint = [145,168,208];
+    this.colorOfPoint = "#91a8d0";
     // 文本
     this.styleOfRatio = "Arial";
     this.sizeOfRatio = 40;
-    this.colorOfRatio = [145,168,208];
+    this.colorOfRatio = "#91a8d0";
     this.decimalNum = 2;
     // 折线图是否显示
     this.lineChartVisible = true;
@@ -461,12 +470,12 @@ params.drawHistogram=function()
             const rectangles = [];
             for(let i=0;i<data.length;i++)
             {
-                let rect=new rectangle_diy(x0+delta/3+delta*i,y0,delta/3,-(data[i][1]-mindata)/dnum*dh);
+                let rect=new rectangle_diy(x0+delta/3+delta*i,y0,delta/3,(data[i][1]-mindata)/dnum*dh);
                 rectangles.push(rect);
             }
             rectangles.forEach(rect => {
                 ctx.beginPath();
-                ctx.rect(rect.x, rect.y, rect.width, rect.height);
+                ctx.rect(rect.x, rect.y, rect.width, -rect.height);
         
                 // 创建纹理填充样式
                 const pattern = ctx.createPattern(img, "repeat");
@@ -595,7 +604,7 @@ params.drawLineChart = function (){
     if(styleOfLine === "dottedLine"){
         ctx.setLineDash([20, 10]);
         for(let i = 0; i < numOfData; i++){
-            ctx.strokeStyle = `rgb(${colorOfLine[0]}, ${colorOfLine[1]}, ${colorOfLine[2]})`;
+            ctx.strokeStyle = colorOfLine;
             ctx.lineWidth = widthOfLine;
             const x = first + i * delta;
             const y = y0-((data[i][1]-mindata)/dnum*dh)*1.2;
@@ -612,7 +621,7 @@ params.drawLineChart = function (){
     }
     else if(styleOfLine === "solidLine"){
         for(let i = 0; i < numOfData; i++){
-            ctx.strokeStyle = `rgb(${colorOfLine[0]}, ${colorOfLine[1]}, ${colorOfLine[2]})`;
+            ctx.strokeStyle = colorOfLine;
             ctx.lineWidth = widthOfLine;
             const x = first + i * delta;
             const y = y0-((data[i][1]-mindata)/dnum*dh)*1.2;
@@ -631,7 +640,7 @@ params.drawLineChart = function (){
     for(let i = 0; i < numOfData; i++){
         const x = first + i * delta;
         const y = y0-((data[i][1]-mindata)/dnum*dh)*1.2;
-        ctx.fillStyle = `rgb(${colorOfPoint[0]}, ${colorOfPoint[1]}, ${colorOfPoint[2]})`;
+        ctx.fillStyle = colorOfPoint;
         // 圆
         if(styleOfPoint === "roundPoint"){
             ctx.beginPath();
@@ -658,7 +667,7 @@ params.drawLineChart = function (){
         var ratio = data[i][1]/sum*100;
         var text = ratio.toFixed(decimalNum)+'%';
         ctx.font = `${sizeOfRatio}px ${styleOfRatio}`;
-        ctx.fillStyle = `rgb(${colorOfRatio[0]}, ${colorOfRatio[1]}, ${colorOfRatio[2]})`;
+        ctx.fillStyle = colorOfRatio;
         ctx.fillText(text,x,y-30);    
     }
 }
@@ -674,7 +683,10 @@ function changeWidthOfLine(){
     params.repaint();
 }
 // 线段颜色更改事件
-
+function changeColorOfLine(event){
+    params.colorOfLine = event.detail;
+    params.repaint();
+}
 // 点样式更改事件
 function changeStyleOfPoint(){
     params.styleOfPoint = styleOfPointSelector.value;
@@ -686,6 +698,10 @@ function changeSizeOfPoint(){
     params.repaint();
 }
 // 点颜色更改事件
+function changeColorOfPoint(event){
+    params.colorOfPoint = event.detail;
+    params.repaint();
+}
 
 // 文本样式更改事件
 function changeStyleOfRatio(){
@@ -698,6 +714,10 @@ function changeSizeOfRatio(){
     params.repaint();
 }
 // 文本颜色更改事件
+function changeColorOfRatio(event){
+    params.colorOfRatio = event.detail;
+    params.repaint();
+}
 
 // 折线图隐藏更改事件
 function changeLineChart(){
@@ -720,11 +740,8 @@ function changeNum(event){
 function handleWheel(event){
     let canvasContainer = document.getElementById('chartContent');
     let canvas = document.getElementById('canvas');
-    
+    let chart = document.getElementById('chart');    
     const scaleStep = 0.1; // 缩放步长
-    // 初始div大小
-    const containerWidth = canvasContainer.clientWidth;
-    const containerHeight = canvasContainer.clientHeight;
 
     event.preventDefault(); // 阻止页面滚动
 
@@ -746,6 +763,7 @@ function handleWheel(event){
     // 计算Canvas缩放后的宽高
     const canvasWidth = 700 * params.scale;
     const canvasHeight = 500 * params.scale;
+    
     // 外部div缩放
     canvasContainer.style.transform = `scale(${params.scale})`;
     canvasContainer.style.transformOrigin = '50% 50%';
@@ -764,10 +782,10 @@ function handleWheel(event){
 
     // 设置canvasContainer的位置以确保图在中心
     // 中心点的坐标感觉应该是用chart的长宽动态确定的，但是不知道为什么会乱飞所以先设成固定的、、、
-    const centerX = 500; // 中心点x坐标
-    const centerY = 200; // 中心点y坐标
-    const containerX = centerX;
-    const containerY = centerY;
+    const centerX = chart.clientWidth/2; // 中心点x坐标
+    const centerY = chart.clientHeight/2; // 中心点y坐标
+    const containerX = centerX - parseFloat(params.canvas.style.width)/2;
+    const containerY = centerY - parseFloat(params.canvas.style.height)/2;
     canvasContainer.style.left = `${containerX}px`;
     canvasContainer.style.top = `${containerY}px`;
 
