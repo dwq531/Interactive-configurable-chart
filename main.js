@@ -343,8 +343,23 @@ params.darwScaleLine = function()
 }
 params.repaint = function()
 {
-    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-    //this.ctx.clearRect(0,0,params.canvas.width,params.canvas.height);
+    let canvasContainer = document.getElementById('chartContent');
+    let canvas = document.getElementById('canvas');
+    let chart = document.getElementById('chart');  
+    // 计算Canvas缩放后的宽高
+    const canvasWidth = 700 * params.scale;
+    const canvasHeight = 500 * params.scale;
+    // 设置Canvas的宽高以保持相对大小
+    params.canvas.width = canvasWidth * 2;
+    params.canvas.height = canvasHeight * 2;
+    params.canvas.style.width = canvasWidth;
+    params.canvas.style.height = canvasHeight;
+     // 清空画布
+    params.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // canvas缩放
+    params.ctx.save();
+    params.ctx.scale(params.scale, params.scale);
+
     this.paint();
 }
 // 输入表格事件
