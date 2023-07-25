@@ -19,8 +19,12 @@ window.onload = () => {
     
     // dwq
     // 输入表格相关事件
-    let table = document.getElementById("dataInputTable");
-    table.addEventListener("input",table_input);
+    let table = document.getElementsByClassName("dataInputContent");
+    for(let content of table)
+    {
+        console.log(content);
+        content.addEventListener("input",table_input);
+    }
     let tableAdd = document.getElementById("tableAddButton");
     tableAdd.addEventListener("click",table_add_row);
     let tableRemove = document.getElementById("tableSubButton");
@@ -106,6 +110,12 @@ window.onload = () => {
         params.gradientColor2 = e.detail;
         params.repaint();
     })
+    //纹理填充
+    //打开纹理界面
+    let textureColorSelector_shift=document.getElementById("textureColorNav");
+    textureColorSelector_shift.addEventListener("click",rectangleStyleToTexture);
+
+
     //cz
     params.constructor();
     params.paint();
@@ -128,6 +138,9 @@ params.constructor = function()
     this.singleColor="#0000FF";
     this.gradientColor1="orange";
     this.gradientColor2="black";
+    this.reader = new FileReader();
+
+    
     // 文本
     this.styleOfText = "Arial";
     this.sizeOfText = 40;
@@ -328,6 +341,7 @@ params.repaint = function()
 // 输入表格事件
 function table_input(event)
 {
+    console.log(this);
     params.getData();
     params.repaint();
 }
@@ -337,6 +351,9 @@ function table_add_row()
     let body = document.getElementById("dataInputTableBody");
     const child = body.children[body.children.length-1];
     const clonerow = child.cloneNode(true);
+    clonerow.children[0].addEventListener("input",table_input);
+    clonerow.children[1].addEventListener("input",table_input);
+    clonerow.children[2].children[0].addEventListener("change",table_check);
     body.appendChild(clonerow);
     params.getData();
     params.repaint();
@@ -358,6 +375,13 @@ function table_remove_row()
 // 表格筛选事件
 function table_check()
 {
+    
+    if(params.data.length == 1 && this.checked == false)
+    {
+        this.checked = true;
+        alert("已经是最后一组数据，不能再减少了！");
+        return;
+    }
     params.getData();
     params.repaint();
 }
@@ -411,8 +435,8 @@ params.drawHistogram=function()
                 //var color1="rgba(240,250,40,1)";
                 //var color2="rgba(82,67,192,1)";
                 let grad=ctx.createLinearGradient(recX+recWidth, recY, recX+recWidth, recY-recHeight);
-                grad.addColorStop(0,gradientColor1);//设置渐变颜色
-                grad.addColorStop(1,gradientColor2);
+                grad.addColorStop(0,gradientColor2);//设置渐变颜色
+                grad.addColorStop(1,gradientColor1);
                 ctx.fillStyle = grad;//设置fillStyle为当前的渐变对象
                 ctx.fillRect(recX,recY,recWidth,-recHeight);//绘制渐变图形
             }
@@ -424,7 +448,7 @@ params.drawHistogram=function()
     else if(styleOfRectangle==TEXTURE_FILL)//纹理填充
     {
         var img = new Image();
-        img.src = "./img/wlj.png";//切换纹理样式
+        img.src = document.getElementById('image').src;//切换纹理样式
         img.onload = function(){
             class rectangle_diy {
                 constructor(x,y,width,height) {
@@ -437,7 +461,7 @@ params.drawHistogram=function()
             const rectangles = [];
             for(let i=0;i<data.length;i++)
             {
-                const rect=new rectangle_diy(x0+delta/3+delta*i,y0,delta/3,-(data[i][1]-mindata)/dnum*dh);
+                let rect=new rectangle_diy(x0+delta/3+delta*i,y0,delta/3,-(data[i][1]-mindata)/dnum*dh);
                 rectangles.push(rect);
             }
             rectangles.forEach(rect => {
@@ -485,6 +509,24 @@ function rectangleStyleToGradient()
 {
     params.styleOfRectangle=2;
     params.repaint();
+}
+//切换至纹理模式
+function rectangleStyleToTexture()
+{
+    params.styleOfRectangle=3;
+    params.repaint();
+}
+//预览纹理图片
+function selectImage(file) {
+    if (!file.files || !file.files[0]) {
+        return;
+    }
+    params.reader = new FileReader();
+    params.reader.onload = function (evt) {
+        document.getElementById('image').src = evt.target.result;
+        params.repaint();
+    }
+    params.reader.readAsDataURL(file.files[0]);
 }
 
 // 文本样式更改事件
