@@ -78,13 +78,25 @@
                 </label>
                 <!--柱状图样式-->
                 <clp-menu rownum="1">
-                    <span slot="title">矩形</span>
-                    <span slot="content1">填充：
-                        <select id = "styleOfRectangle">
+                    <span slot="title" id="rectangleSelector">矩形</span>
+                    <span slot="content1">
+                        <div id = "stylenavRectangleMenu">
+                            <a class="sidenavRectangle-button" href="#singleColorFill">单色填充</a>
+                            <a class="sidenavRectangle-button" href="#gradientFill">渐变填充</a>
+                            <a class="sidenavRectangle-button-clicked" href="#textureFill">纹理填充</a>
+                        </div>
+                        <div id="sidenavRectangleContent">
+                            <div id="singleColorFill" class="content-page">gkg</div>
+                            <div id="gradientFill" class="content-page"></div>
+                            <div id="textureFill" class="content-page">dddgdfjd</div>
+                        </div>
+                        <!--
+                            <select id = "styleOfRectangle">
                             <option value="singleFill">单色填充</option>
                             <option value="gradientFill">渐变填充</option>
                             <option value="textureFill">纹理填充</option>
                         </select>
+                        -->
                         
                     </span> 
                 </clp-menu>
