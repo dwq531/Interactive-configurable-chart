@@ -29,11 +29,6 @@ window.onload = () => {
     tableAdd.addEventListener("click",table_add_row);
     let tableRemove = document.getElementById("tableSubButton");
     tableRemove.addEventListener("click",table_remove_row);
-    let mycb = document.getElementById("mycb");
-    mycb.addEventListener("rgbchange",(e)=>{
-        let test = document.getElementById("colorTest");
-        test.style.background = e.detail;
-    })
     let dataInputCheckBox = document.getElementsByClassName("dataInputCheckBox");
     for(let box of dataInputCheckBox)
     {
