@@ -69,6 +69,34 @@ window.onload = () => {
     for (let but of rectangleButs) {
         but.addEventListener("click", sidenavRectanglebut_clicked);
     }
+    //改变矩形单色
+    //打开单色界面
+    let singleColorSelector_shift=document.getElementById("singleColorNav");
+    singleColorSelector_shift.addEventListener("click",rectangleStyleToSingle);
+    //变色
+    let singleColorSelector_rgbchange= document.getElementById("singleColor");
+    singleColorSelector_rgbchange.addEventListener("rgbchange",(e)=>{
+        params.styleOfRectangle=1;
+        params.singleColor = e.detail;
+        params.repaint();
+    })
+    //渐变
+    //打开渐变界面
+    let gradientColorSelector_shift=document.getElementById("gradientColorNav");
+    gradientColorSelector_shift.addEventListener("click",rectangleStyleToGradient);
+    //变色
+    let gradientColorSelector1_rgbchange= document.getElementById("gradientColor1");
+    gradientColorSelector1_rgbchange.addEventListener("rgbchange",(e)=>{
+        params.styleOfRectangle=2;
+        params.gradientColor1 = e.detail;
+        params.repaint();
+    })
+    let gradientColorSelector2_rgbchange= document.getElementById("gradientColor2");
+    gradientColorSelector2_rgbchange.addEventListener("rgbchange",(e)=>{
+        params.styleOfRectangle=2;
+        params.gradientColor2 = e.detail;
+        params.repaint();
+    })
     //cz
 }
 params.constructor = function()
@@ -85,6 +113,10 @@ params.constructor = function()
     this.styleOfRectangle=1;
     // 柱状图是否显示
     this.histogramVisible = true;
+    //矩形
+    this.singleColor="#0000FF";
+    this.gradientColor1="orange";
+    this.gradientColor2="black";
     // 文本
     this.styleOfText = "Arial";
     this.sizeOfText = 40;
@@ -329,14 +361,16 @@ params.drawHistogram=function()
     let mindata = this.mindata;
 
     // 矩形相关的参数
-    let styleOfRectangle=this.styleOfRectangle
+    let styleOfRectangle=this.styleOfRectangle;
+    let singleColor=this.singleColor;
+    let gradientColor1=this.gradientColor1;
+    let gradientColor2=this.gradientColor2;
     
     // 文本相关的参数
     let styleOfText = this.styleOfText;
     let sizeOfText= this.sizeOfText;
     let colorOfText=this.colorOfText;
     
-    styleOfRectangle=2;
     //绘制矩形
     if(styleOfRectangle!=TEXTURE_FILL)
     {
@@ -352,17 +386,16 @@ params.drawHistogram=function()
 
             if(styleOfRectangle==SINGLE_COLOR_FILL)//单色填充
             {
-                var color = "#0000FF";
-                ctx.fillStyle=color; 
+                ctx.fillStyle=singleColor; 
                 ctx.fillRect(recX,recY,recWidth,-recHeight);
             }
             else if(styleOfRectangle==GRADIENT_FILL)//渐变填充
             {
-                var color1="rgba(240,250,40,1)";
-                var color2="rgba(82,67,192,1)";
+                //var color1="rgba(240,250,40,1)";
+                //var color2="rgba(82,67,192,1)";
                 let grad=ctx.createLinearGradient(recX+recWidth, recY, recX+recWidth, recY-recHeight);
-                grad.addColorStop(0, color1);//设置渐变颜色
-                grad.addColorStop(1, color2);
+                grad.addColorStop(0,gradientColor1);//设置渐变颜色
+                grad.addColorStop(1,gradientColor2);
                 ctx.fillStyle = grad;//设置fillStyle为当前的渐变对象
                 ctx.fillRect(recX,recY,recWidth,-recHeight);//绘制渐变图形
             }
@@ -424,7 +457,18 @@ params.drawHistogram=function()
     }
  
 }
-
+//切换至单色模式
+function rectangleStyleToSingle()
+{
+    params.styleOfRectangle=1;
+    params.repaint();
+}
+//切换至渐变模式
+function rectangleStyleToGradient()
+{
+    params.styleOfRectangle=2;
+    params.repaint();
+}
 // 文本样式更改事件
 function changeStyleOfText(){
     params.styleOfText = styleOfTextSelector.value;
