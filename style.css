@@ -133,6 +133,7 @@ body {
 .content-page{
     width:var(--sidenavwidth);
     height:100%;
+    width:100%;
     background: rgb(246, 246, 246);
     flex-shrink: 0;
     overflow-y:scroll;
@@ -185,11 +186,10 @@ body {
     background-color: white;
 }
 #sidenavRectangleContent{
-    position:absolute;
     top:50px;
     left:0px;
     width:100%;
-    height:calc(100% - 50px);
+    height:100%;
     display: flex;/*通过a标签锚点定位切换页面，https://blog.csdn.net/m0_53016870/article/details/126582766 */
     overflow:hidden;
 }
