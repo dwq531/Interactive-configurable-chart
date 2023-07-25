@@ -453,6 +453,7 @@ params.drawHistogram=function()
             {
                 ctx.fillStyle=singleColor; 
                 ctx.fillRect(recX,recY,recWidth,-recHeight);
+                console.log(recX);
             }
             else if(styleOfRectangle==GRADIENT_FILL)//渐变填充
             {
@@ -471,32 +472,31 @@ params.drawHistogram=function()
     }
     else if(styleOfRectangle==TEXTURE_FILL)//纹理填充
     {
-        var img = new Image();
-        img.src = document.getElementById('image').src;//切换纹理样式
-        img.onload = function(){
-            class rectangle_diy {
-                constructor(x,y,width,height) {
-                  this.x = x;
-                  this.y = y;
-                  this.width=width;
-                  this.height=height;
-                }
-              }
-            const rectangles = [];
-            for(let i=0;i<data.length;i++)
-            {
-                let rect=new rectangle_diy(x0+delta/3+delta*i,y0,delta/3,(data[i][1]-mindata)/dnum*dh);
-                rectangles.push(rect);
-            }
-            rectangles.forEach(rect => {
-                ctx.beginPath();
-                ctx.rect(rect.x, rect.y, rect.width, -rect.height);
+        let img = new Image();
         
-                // 创建纹理填充样式
+        img.src = document.getElementById('image').src;//切换纹理样式
+        
+        img.onload = function(){
+            //console.log("213");
+            for(var i=0;i<data.length;i++)
+            {
+                ctx.beginPath();
+        
+                // //绘制柱状图
+                var recWidth=delta/3;
+                var recHeight = (data[i][1]-mindata)/dnum*dh;
+                var recX=x0+delta/3+delta*i;
+                var recY=y0;
+                
+                // // 创建纹理填充样式
                 const pattern = ctx.createPattern(img, "repeat");
                 ctx.fillStyle = pattern;
-                ctx.fill();
-            });
+                //ctx.fillStyle=singleColor; 
+                
+                ctx.fillRect(recX,recY,recWidth,-recHeight);//绘制渐变图形
+                //console.log(recX);
+              
+            }
         }
     }
 
