@@ -81,7 +81,7 @@ params.constructor = function()
     this.kedushu;// 刻度数
     this.getData();
     
-    this.axisColor = "blue";
+    this.axisColor = "gray";
     //dwq
     // gff
     // 线
@@ -166,7 +166,7 @@ params.getData = function()
             maxdata = this.data[i][1];
     }
     let span = maxdata-mindata;
-    if(span < 10)
+    if(span <= 10)
     {
         this.kedushu = span+3;
         this.dnum = 1;
@@ -174,7 +174,7 @@ params.getData = function()
     else
     {
         this.dnum = ~~((span/8)/5)*5+5;// 刻度数为8时，dnum最接近的5的倍数
-        this.kedushu = span/this.dnum + 3;
+        this.kedushu = Math.floor(maxdata/5)-Math.floor(mindata/5)+2;
     }
     this.dh = (this.y0-this.y1-20)/(this.kedushu-1);
     this.mindata = mindata-this.dnum;

@@ -56,6 +56,7 @@ class ClpMenu extends HTMLElement {
             width: 100%;
             font-size: 18px;
             font-weight: bold;
+            border:rgb(152, 152, 152) solid 1px;
         }
         
         .editor-box-row {
