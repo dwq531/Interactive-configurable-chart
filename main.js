@@ -18,12 +18,18 @@ window.onload = () => {
     params.constructor();
     params.paint();
     // dwq
+    // 输入表格相关事件
     let table = document.getElementById("dataInputTable");
     table.addEventListener("input",table_input);
     let tableAdd = document.getElementById("tableAddButton");
     tableAdd.addEventListener("click",table_add_row);
     let tableRemove = document.getElementById("tableSubButton");
     tableRemove.addEventListener("click",table_remove_row);
+    let mycb = document.getElementById("mycb");
+    mycb.addEventListener("rgbchange",(e)=>{
+        let test = document.getElementById("colorTest");
+        test.style.background = e.detail;
+    })
     // dwq
 
     // gff
