@@ -133,6 +133,7 @@ body {
 .content-page{
     width:var(--sidenavwidth);
     height:100%;
+    width:100%;
     background: rgb(246, 246, 246);
     flex-shrink: 0;
     overflow-y:scroll;
@@ -185,7 +186,6 @@ body {
     background-color: white;
 }
 #sidenavRectangleContent{
-    position:absolute;
     top:50px;
     left:0px;
     width:100%;
