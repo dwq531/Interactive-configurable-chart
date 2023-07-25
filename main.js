@@ -461,7 +461,7 @@ params.drawHistogram=function()
             const rectangles = [];
             for(let i=0;i<data.length;i++)
             {
-                const rect=new rectangle_diy(x0+delta/3+delta*i,y0,delta/3,-(data[i][1]-mindata)/dnum*dh);
+                let rect=new rectangle_diy(x0+delta/3+delta*i,y0,delta/3,-(data[i][1]-mindata)/dnum*dh);
                 rectangles.push(rect);
             }
             rectangles.forEach(rect => {
