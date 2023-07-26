@@ -263,14 +263,18 @@ params.getData = function()
     {
         this.kedushu = span+3;
         this.dnum = 1;
+        this.mindata = mindata-1;
     }
     else
     {
         this.dnum = ~~((span/8)/5)*5+5;// 刻度数为8时，dnum最接近的5的倍数
-        this.kedushu = Math.floor(maxdata/this.dnum)-Math.floor(mindata/this.dnum)+2;
+        this.mindata = Math.floor((mindata-1)/this.dnum)*this.dnum;// 比最小值小的，最接近最小值的，dnum的倍数
+        if(this.mindata<0)
+            this.mindata=0;
+        this.kedushu = Math.ceil(maxdata/this.dnum)-this.mindata/this.dnum+2;// 
+        
     }
     this.dh = (this.y0-this.y1-20)/(this.kedushu-1);
-    this.mindata = mindata-this.dnum;
     if(this.mindata < 0)
         this.mindata = 0;
 }
