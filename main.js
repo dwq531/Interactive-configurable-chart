@@ -151,7 +151,7 @@ params.constructor = function()
     // 文本
     this.styleOfText = "Arial";
     this.sizeOfText = 40;
-    this.colorOfText = [145,168,208];
+    this.colorOfText = "green";
 
     //cz
     
@@ -473,7 +473,7 @@ params.drawHistogram=function()
             {
                 ctx.fillStyle=singleColor; 
                 ctx.fillRect(recX,recY,recWidth,-recHeight);
-                console.log(recX);
+                //console.log(recX);
             }
             else if(styleOfRectangle==GRADIENT_FILL)//渐变填充
             {
