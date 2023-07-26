@@ -22,7 +22,6 @@ window.onload = () => {
     let table = document.getElementsByClassName("dataInputContent");
     for(let content of table)
     {
-        console.log(content);
         content.addEventListener("input",table_input);
     }
     let tableAdd = document.getElementById("tableAddButton");
