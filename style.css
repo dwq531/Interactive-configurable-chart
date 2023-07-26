@@ -79,7 +79,6 @@ body {
     left:50%;
     width:var(--chartwidth);
     height:var(--chartheight);
-    max-width:calc(100vw - var(--sidenavwidth));
     transform: translate(-50%,-50%);
     background: white;
 }

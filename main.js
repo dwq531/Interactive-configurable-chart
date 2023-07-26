@@ -166,7 +166,7 @@ params.constructor = function()
     this.data = new Array();// 存输入数据的二维数组
     this.kedushu;// 刻度数
     this.getData();
-    
+    this.originWidth=700;
     this.axisColor = "gray";
     //dwq
     // gff
@@ -244,6 +244,7 @@ params.getData = function()
         let root = document.querySelector(':root');
         this.canvas.width = 1400 + (this.data.length-9)*100;
         canvas.style.width = (700 + (this.data.length-9)*50)+"px";
+        this.originWidth = 700 + (this.data.length-9)*50;
         root.style.setProperty('--chartwidth',this.canvas.width/2+'px');
         this.x1 = this.canvas.width-this.padding;
     }
@@ -342,12 +343,19 @@ params.darwScaleLine = function()
 }
 params.repaint = function()
 {
+    
     let canvasContainer = document.getElementById('chartContent');
     let canvas = document.getElementById('canvas');
     let chart = document.getElementById('chart');  
     // 计算Canvas缩放后的宽高
-    const canvasWidth = 700 * params.scale;
+    // 计算Canvas缩放后的宽高
+    const canvasWidth = params.originWidth * params.scale;
     const canvasHeight = 500 * params.scale;
+    
+    // 外部div缩放
+    canvasContainer.style.transform = `scale(${params.scale})`;
+   // canvasContainer.style.transformOrigin = '50% 50%';
+
     // 设置Canvas的宽高以保持相对大小
     params.canvas.width = canvasWidth * 2;
     params.canvas.height = canvasHeight * 2;
@@ -355,10 +363,20 @@ params.repaint = function()
     params.canvas.style.height = canvasHeight;
      // 清空画布
     params.ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     // canvas缩放
     params.ctx.save();
     params.ctx.scale(params.scale, params.scale);
 
+    // 设置canvasContainer的位置以确保图在中心
+    // 中心点的坐标感觉应该是用chart的长宽动态确定的，但是不知道为什么会乱飞所以先设成固定的、、、
+    const centerX = chart.clientWidth/2; // 中心点x坐标
+    const centerY = chart.clientHeight/2; // 中心点y坐标
+    const containerX = centerX - parseFloat(params.canvas.style.width)/2;
+    const containerY = centerY - parseFloat(params.canvas.style.height)/2;
+    canvasContainer.style.left = `${containerX}px`;
+    canvasContainer.style.top = `${containerY}px`;
+    //params.ctx.clearRect(0, 0, canvas.width, canvas.height);
     this.paint();
 }
 // 输入表格事件
@@ -798,33 +816,7 @@ function handleWheel(event){
     }
 
     // 计算Canvas缩放后的宽高
-    const canvasWidth = 700 * params.scale;
-    const canvasHeight = 500 * params.scale;
     
-    // 外部div缩放
-    canvasContainer.style.transform = `scale(${params.scale})`;
-    canvasContainer.style.transformOrigin = '50% 50%';
-
-    // 设置Canvas的宽高以保持相对大小
-    params.canvas.width = canvasWidth * 2;
-    params.canvas.height = canvasHeight * 2;
-    params.canvas.style.width = canvasWidth;
-    params.canvas.style.height = canvasHeight;
-     // 清空画布
-    params.ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // canvas缩放
-    params.ctx.save();
-    params.ctx.scale(params.scale, params.scale);
-
-    // 设置canvasContainer的位置以确保图在中心
-    // 中心点的坐标感觉应该是用chart的长宽动态确定的，但是不知道为什么会乱飞所以先设成固定的、、、
-    const centerX = chart.clientWidth/2; // 中心点x坐标
-    const centerY = chart.clientHeight/2; // 中心点y坐标
-    const containerX = centerX - parseFloat(params.canvas.style.width)/2;
-    const containerY = centerY - parseFloat(params.canvas.style.height)/2;
-    canvasContainer.style.left = `${containerX}px`;
-    canvasContainer.style.top = `${containerY}px`;
 
     params.repaint();
     params.ctx.restore();
