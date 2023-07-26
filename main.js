@@ -76,6 +76,9 @@ window.onload = () => {
     styleOfTextSelector.addEventListener('change', changeStyleOfText);
     let sizeOfTextSelector = document.getElementById('sizeOfTextSelector');      
     sizeOfTextSelector.addEventListener('change', changeSizeOfText);
+    let colorOfHistogramTextSelector= document.getElementById("histogramTextColorBoard");
+    colorOfHistogramTextSelector.addEventListener("rgbchange",changeColorOfHistogramText);
+    
 
     // 柱状图矩形侧边栏按钮添加事件
     let rectangleButs = document.getElementsByClassName("sidenavRectangle-button");
@@ -494,48 +497,24 @@ params.drawHistogram=function()
         img.src = document.getElementById('image').src;//切换纹理样式
         
         for(var i=0;i<data.length;i++)
-            {
-                ctx.beginPath();
-        
-                // //绘制柱状图
-                var recWidth=delta/3;
-                var recHeight = (data[i][1]-mindata)/dnum*dh;
-                var recX=x0+delta/3+delta*i;
-                var recY=y0;
-                
-                // // 创建纹理填充样式
-                const pattern = ctx.createPattern(document.getElementById('image'), "repeat");
-                ctx.fillStyle = pattern;
-                //ctx.fillStyle=singleColor; 
-                
-                ctx.fillRect(recX,recY,recWidth,-recHeight);//绘制渐变图形
-                //console.log(recX);
-              
-            }
-
-            /*
-        img.onload = function(){
-            //console.log("213");
-            for(var i=0;i<data.length;i++)
-            {
-                ctx.beginPath();
-        
-                // //绘制柱状图
-                var recWidth=delta/3;
-                var recHeight = (data[i][1]-mindata)/dnum*dh;
-                var recX=x0+delta/3+delta*i;
-                var recY=y0;
-                
-                // // 创建纹理填充样式
-                const pattern = ctx.createPattern(img, "repeat");
-                ctx.fillStyle = pattern;
-                //ctx.fillStyle=singleColor; 
-                
-                ctx.fillRect(recX,recY,recWidth,-recHeight);//绘制渐变图形
-                //console.log(recX);
-              
-            }
-        }*/
+        {
+            ctx.beginPath();
+    
+            // //绘制柱状图
+            var recWidth=delta/3;
+            var recHeight = (data[i][1]-mindata)/dnum*dh;
+            var recX=x0+delta/3+delta*i;
+            var recY=y0;
+            
+            // // 创建纹理填充样式
+            const pattern = ctx.createPattern(document.getElementById('image'), "repeat");
+            ctx.fillStyle = pattern;
+            //ctx.fillStyle=singleColor; 
+            
+            ctx.fillRect(recX,recY,recWidth,-recHeight);//绘制渐变图形
+            //console.log(recX);
+            
+        }
     }
 
     
@@ -551,7 +530,7 @@ params.drawHistogram=function()
         var recY=y0;
 
         ctx.font = `${sizeOfText}px ${styleOfText}`;
-        ctx.fillStyle = `rgb(${colorOfText[0]}, ${colorOfText[1]}, ${colorOfText[2]})`;
+        ctx.fillStyle = colorOfText;
         var text=data[i][1];
         //var textWidth=ctx.measureText(text).width;//获取文本宽度
         //ctx.fillText(text,recX+delta/6-textWidth/2,recY-recHeight-10,recWidth);//显示数值，-5
@@ -604,7 +583,10 @@ function changeSizeOfText(){
     params.repaint();
 }
 // 文本颜色更改事件
-
+function changeColorOfHistogramText(event){
+    params.colorOfText = event.detail;
+    params.repaint();
+}
 //柱状图隐藏更改事件
 function changeHistogram(){
     if(histogramCheckbox.checked){

@@ -199,11 +199,16 @@ class ColorBoard extends HTMLElement {
                 hueSlide.style.top = y + "px";
                 this.curColor.h = (y / hue.offsetHeight) * 360;
                
-                let gradientColor=this.curColor;
-                gradientColor.s="100%";
-                gradientColor.a=1;
-                gradientColor.l="50%";
-                this.drawSpectrum(canvas, tinycolor(gradientColor), ctx);
+                let temp_s=this.curColor.s;
+                let temp_a=this.curColor.a;
+                let temp_l=this.curColor.l;
+                this.curColor.s="100%";
+                this.curColor.a=1;
+                this.curColor.l="50%";
+                this.drawSpectrum(canvas, tinycolor(this.curColor), ctx);
+                this.curColor.s=temp_s;
+                this.curColor.a=temp_a;
+                this.curColor.l=temp_l;
             }
 
             if (e.target === spectrum || e.target.parentNode === spectrum) {
